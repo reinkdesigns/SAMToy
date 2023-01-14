@@ -7,7 +7,7 @@ let lock = false;
 let timer;
 let userPhrase;
 let recognition = new webkitSpeechRecognition();
-let threshold = 60;
+var threshold = 120;
 let startTime = Date.now();
 let deadAirDuration = 0;
 let boxData = [];
@@ -15,10 +15,26 @@ let points = 0;
 let goodBoxes = 0;
 let badBoxes = 0;
 let resetLock = false;
-let totalPoints = 0;
+// let totalPoints = 0;
+let lockoutTime = 5
 recognition.continuous = true;
 recognition.interimResults = true;
 recognition.maxAlternatives = 10;
+
+let totalPoints = parseInt(localStorage.getItem("totalPoints")) || 0
+console.log(totalPoints)
+
+if (localStorage.getItem("lastVisit") != new Date().toDateString()) {
+  localStorage.setItem("totalPoints",0)
+  localStorage.setItem("lastVisit", new Date().toDateString());
+  totalPoints = 0;
+  console.log("New Day")
+}else{
+ totalPoints = parseInt(localStorage.getItem("totalPoints"))
+}
+
+
+
 
 recognition.onresult = function (event) {
   clearTimeout(timer); // Reset timer
@@ -34,7 +50,6 @@ recognition.onend = function () {
   recognition.start();
 };
 
-
 recognition.start();
 
 $(document).ready(function () {
@@ -45,6 +60,28 @@ $(document).ready(function () {
   fetchPositiveWord();
   $("#top-div").fadeOut(0, 0);
 });
+
+var isActive = true;
+var button = document.getElementById("myButton");
+
+function updateButton() {
+    if (!isActive) {
+      $('#myButton').css("background-color", "#5f798f")
+        button.setAttribute("disabled", "true");
+    } else {
+      $('#myButton').css("background-color", "#0078D7")
+        button.removeAttribute("disabled");
+    }
+}
+
+updateButton();
+
+button.addEventListener("click", function() {
+    fetchPositiveWord()
+    isActive = !isActive;
+    updateButton();
+});
+
 
 function getUniqueRandom({ numbers = 0, maxNumber = 0, floor = 0 }) {
   let arr = [];
@@ -105,12 +142,15 @@ logAudioLevel();
 
 function checkWord({ list = 0 }) {
   if (list.includes("spectrum") && !resetLock) {
-   if(!(list.includes("account") || list.includes("email")|| list.includes(".net"))){
-    resetLock = true;
-    setTimeout(function () {
+    if(!(list.includes("account") || list.includes("email")|| list.includes(".net"))){
+      isActive = true;
+      updateButton();
+      resetLock = true;
+      setTimeout(function () {
       resetLock = false;
-    }, 180000);
+    }, lockoutTime*60000); //convert lockout to ms
     totalPoints += points;
+    localStorage.setItem("totalPoints",totalPoints)
     fetchPositiveWord();
   }
   }
@@ -119,6 +159,10 @@ function checkWord({ list = 0 }) {
       boxData[i].active = false;
       console.log("match: " + boxData[i].text);
     }
+  }
+  if (list.toLowerCase().includes("email")) {
+    boxData[9].active = false;
+    console.log("match: " + boxData[9].text);
   }
 }
 
@@ -136,3 +180,12 @@ function fetchPositiveWord() {
   boxData.push({ text: "Email", active: true });
   $("#box10").text("E-mail");
 }
+
+
+
+
+
+
+
+
+
