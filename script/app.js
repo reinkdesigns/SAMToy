@@ -15,7 +15,6 @@ let points = 0;
 let goodBoxes = 0;
 let badBoxes = 0;
 let resetLock = false;
-// let totalPoints = 0;
 let lockoutTime = 5
 recognition.continuous = true;
 recognition.interimResults = true;
