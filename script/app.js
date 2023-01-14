@@ -21,7 +21,7 @@ recognition.continuous = true;
 recognition.interimResults = true;
 recognition.maxAlternatives = 10;
 
-let totalPoints = parseInt(localStorage.getItem("totalPoints")) || 0
+let totalPoints = parseInt(localStorage.getItem("totalPoints")) || 50 //start at 50 to account for 1st call
 console.log(totalPoints)
 
 if (localStorage.getItem("lastVisit") != new Date().toDateString()) {
