@@ -1,85 +1,96 @@
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
 
-  #top-div{
-    background-color: #e6ac61;
-  }
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#top-div{
+  background-color: #e6ac61;
+}
 
 .top-div {
-    color: rgb(22, 21, 21); /* dark gray */
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 600; /* bold */
-    text-shadow: 2px 2px rgb(179, 155, 89);
-    text-align: center;
-    width: 80vw;
-    height: 220px; /* take up the top 100 pixels of the screen */
-    border: 10px solid #0078D7; /* blue color used in Charter Spectrum logo */
-    border-radius: 10px;
-    position: absolute;
-    top: -10px;
-    margin: 0;
-  }
+  color: rgb(22, 21, 21); /* dark gray */
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600; /* bold */
+  text-shadow: 2px 2px rgb(179, 155, 89);
+  text-align: center;
+  width: 80vw;
+  height: 220px; /* take up the top 100 pixels of the screen */
+  border: 10px solid #0078D7; /* blue color used in Charter Spectrum logo */
+  border-radius: 10px;
+  position: absolute;
+  top: -10px;
+  margin: 0;
+}
 
-  .top-text{
+.top-text{
+  font-size: 20px;
+}
+
+.info{
+  top: 700px;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600; /* bold */
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 150px; /* move container-div down to make space for top-div */
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  margin-top: 100px;
+  gap: 30px;
+}
+.point-div{
+  font-size: 25px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.box {
+  background-color: white;
+  border: 10px solid #0078D7; /* blue color used in Charter Spectrum logo */
+  border-radius: 10px;
+  color:black;
+  font-size: 20px;
+  text-align: center;
+  padding: 20px;
+  width: 10vw;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-div {
+  text-align: center;
+}
+
+/*css for point and add overall points*/
+  #myButton {
+    width: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 43px;
+    background-color: #0078D7;
+    color: rgb(255, 255, 255);
+    border-color: gray;
+    border-radius: 25px;
+    font-family: Averta PE Bold, sans-serif;
+    font-weight: bold;
     font-size: 20px;
-  }
-
-  .info{
-    top: 600px;
-    text-align: center;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 600; /* bold */
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .container-div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 150px; /* move container-div down to make space for top-div */
-  }
-  
-  .container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    margin-top: 100px;
-    gap: 30px;
-  }
-  .point-div{
-    font-size: 25px;
-    font-family: 'Open Sans', sans-serif;
-  }
-  
-  .box {
-    background-color: white;
-    border: 10px solid #0078D7; /* blue color used in Charter Spectrum logo */
-    border-radius: 10px;
-    color:black;
-    font-size: 20px;
-    text-align: center;
-    padding: 20px;
-    width: 10vw;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .button-div {
-    text-align: center;
-  }
-
-  /*css for point and add overall points*/
-
-  .nothing{
-    color: #64c564;
+    margin: auto;
   }
