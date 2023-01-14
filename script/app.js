@@ -105,6 +105,7 @@ logAudioLevel();
 
 function checkWord({ list = 0 }) {
   if (list.includes("spectrum") && !resetLock) {
+    if(!(list.includes("TV") ||list.includes("account") || list.includes("television") || list.includes(".net"))){
     resetLock = true;
     setTimeout(function () {
       resetLock = false;
@@ -112,16 +113,13 @@ function checkWord({ list = 0 }) {
     totalPoints += points;
     fetchPositiveWord();
   }
+  }
   for (let i = 0; i < 10; i++) {
     if (list.toLowerCase().includes(boxData[i].text.toLowerCase())) {
       boxData[i].active = false;
       console.log("match: " + boxData[i].text);
     }
   }
-
-  // if (list.includes("your call")) {
-  //   console.log("your call");
-  // }
 }
 
 function fetchPositiveWord() {
