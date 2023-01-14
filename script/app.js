@@ -105,7 +105,7 @@ logAudioLevel();
 
 function checkWord({ list = 0 }) {
   if (list.includes("spectrum") && !resetLock) {
-    if(!(list.includes("TV") ||list.includes("account") || list.includes("television") || list.includes(".net"))){
+   if(!(list.includes("account") || list.includes("email")|| list.includes(".net"))){
     resetLock = true;
     setTimeout(function () {
       resetLock = false;
