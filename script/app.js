@@ -7,7 +7,7 @@ let lock = false;
 let timer;
 let userPhrase;
 let recognition = new webkitSpeechRecognition();
-var threshold = 120;
+let threshold = 120;
 let startTime = Date.now();
 let deadAirDuration = 0;
 let boxData = [];
