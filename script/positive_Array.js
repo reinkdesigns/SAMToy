@@ -13,7 +13,6 @@ const positiveWords = [
     "Delight",
     "Easy",
     "Ecstatic",
-    "Email",
     "Enjoy",
     "Essential",
     "Excellent",
