@@ -42,7 +42,7 @@ const positiveWords = [
     "Quickly",
     "Recommend",
     "Renowend",
-    "resolv",
+    "Resolved",
     "Sensational",
     "Skillful",
     "Splendid",
