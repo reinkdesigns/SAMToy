@@ -34,15 +34,6 @@ recognition.onend = function () {
   recognition.start();
 };
 
-navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
-  var microphone = stream.getAudioTracks()[0];
-  recognition.onend = function () {
-    console.log("Recognition stopped");
-    if (microphone.enabled) {
-      recognition.start();
-    }
-  };
-});
 
 recognition.start();
 
