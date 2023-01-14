@@ -6,7 +6,6 @@ const positiveWords = [
     "Appreciate",
     "Beautiful",
     "Believe",
-    "Calm",
     "Certain",
     "Completely",
     "Creative",
