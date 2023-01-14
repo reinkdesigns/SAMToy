@@ -23,7 +23,6 @@ recognition.onresult = function(event) {
 };
 
 recognition.onend = function() {
-    console.log("Recognition stopped");
     // check if stop() method is being called here
     recognition.start();
   }
