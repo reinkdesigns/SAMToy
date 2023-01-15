@@ -7,33 +7,50 @@ let lock = false;
 let timer;
 let userPhrase;
 let recognition = new webkitSpeechRecognition();
-var threshold = 120;
+var threshold = 60;
 let startTime = Date.now();
 let deadAirDuration = 0;
 let boxData = [];
 let points = 0;
 let goodBoxes = 0;
 let badBoxes = 0;
+let bonus = 0;
+let armTime=0
+let start = Date.now();
+let end=0;
+let elapsed=0;
+let armLock=false;
 let resetLock = false;
-let lockoutTime = 5
+let lockoutTime = 5;
+let flashGreen = {
+  "animation-name": "flashGreen",
+  "animation-duration": "1s",
+};
+
+let flashRed = {
+  "animation-name": "flashRed",
+  "animation-duration": "1s",
+};
+// $('#bigBox').css(flashGreen);
+// $('#bigBox').css(flashRed);
+
+
+
 recognition.continuous = true;
 recognition.interimResults = true;
 recognition.maxAlternatives = 10;
 
-let totalPoints = parseInt(localStorage.getItem("totalPoints")) || 50 //start at 50 to account for 1st call
-console.log(totalPoints)
+let totalPoints = parseInt(localStorage.getItem("totalPoints")) || 50;
+console.log(totalPoints);
 
 if (localStorage.getItem("lastVisit") != new Date().toDateString()) {
-  localStorage.setItem("totalPoints",0)
+  localStorage.setItem("totalPoints", 0);
   localStorage.setItem("lastVisit", new Date().toDateString());
   totalPoints = 0;
-  console.log("New Day")
-}else{
- totalPoints = parseInt(localStorage.getItem("totalPoints"))
+  console.log("New Day");
+} else {
+  totalPoints = parseInt(localStorage.getItem("totalPoints"));
 }
-
-
-
 
 recognition.onresult = function (event) {
   clearTimeout(timer); // Reset timer
@@ -44,11 +61,9 @@ recognition.onresult = function (event) {
     if (userPhrase) deadAirDuration = 0;
   }, 1000); // Log result after 1 second
 };
-
 recognition.onend = function () {
   recognition.start();
 };
-
 recognition.start();
 
 $(document).ready(function () {
@@ -61,26 +76,30 @@ $(document).ready(function () {
 });
 
 var isActive = true;
-var button = document.getElementById("myButton");
 
-function updateButton() {
-    if (!isActive) {
-      $('#myButton').css("background-color", "#5f798f")
-        button.setAttribute("disabled", "true");
-    } else {
-      $('#myButton').css("background-color", "#0078D7")
-        button.removeAttribute("disabled");
-    }
-}
+logAudioLevel();
 
 updateButton();
 
-button.addEventListener("click", function() {
-    fetchPositiveWord()
-    isActive = !isActive;
-    updateButton();
+$("#rerollButton").click(function () {
+  fetchPositiveWord();
+  isActive = !isActive;
+  updateButton();
 });
 
+$("#resetButton").click(function () {
+  resetRound();
+});
+
+function updateButton() {
+  if (!isActive) {
+    $("#rerollButton").css("background-color", "#5f798f");
+    $("#rerollButton").attr("disabled", "true");
+  } else {
+    $("#rerollButton").css("background-color", "#0078D7");
+    $("#rerollButton").attr("disabled");
+  }
+}
 
 function getUniqueRandom({ numbers = 0, maxNumber = 0, floor = 0 }) {
   let arr = [];
@@ -103,7 +122,12 @@ function logAudioLevel() {
       lock = false;
     }
   }
-
+  
+  timeelapsed()
+  
+  armTime = (180-elapsed)
+  if(armTime<0) armTime = 0
+  $("#bigBox").text(`ARMBonus:${bonus} Time left: ${armTime}`)
   if (deadAirDuration > threshold * 1000 && !lock) {
     arrayRandom = getUniqueRandom({ numbers: 3, maxNumber: phrases.length });
     for (let i = 0; i < arrayRandom.length; i++) {
@@ -137,21 +161,16 @@ function logAudioLevel() {
   $("#pointTotal-text").text("Total Points: " + totalPoints);
 }
 
-logAudioLevel();
-
 function checkWord({ list = 0 }) {
-  if (list.includes("spectrum") && !resetLock) {
-    if(!(list.includes("account") || list.includes("email")|| list.includes(".net"))){
-      isActive = true;
-      updateButton();
-      resetLock = true;
-      setTimeout(function () {
-      resetLock = false;
-    }, lockoutTime*60000); //convert lockout to ms
-    totalPoints += points;
-    localStorage.setItem("totalPoints",totalPoints)
-    fetchPositiveWord();
+  if (list.toLowerCase().includes("spectrum") && resetLock) {
+    console.log('Spectrum Locked')
   }
+
+  if (list.toLowerCase().includes("spectrum") && !resetLock) {
+    if (
+      !(list.includes("account") ||list.includes("email") ||list.includes(".net"))) {
+      resetRound();
+    }
   }
   for (let i = 0; i < 10; i++) {
     if (list.toLowerCase().includes(boxData[i].text.toLowerCase())) {
@@ -159,10 +178,42 @@ function checkWord({ list = 0 }) {
       console.log("match: " + boxData[i].text);
     }
   }
+  for (let i = 0; i < armStatment.length; i++) {
+    if (!armLock && list.toLowerCase().includes(armStatment[i].toLowerCase())) {
+      bonus += 5;
+      console.log("match: " + armStatment[i]);
+      $("#bigBox").css(flashGreen);
+    }
+  }
+
   if (list.toLowerCase().includes("email")) {
     boxData[9].active = false;
     console.log("match: " + boxData[9].text);
   }
+}
+
+function resetRound() {
+  console.log("spectrum Unlocked")
+  start = Date.now();
+  armLock = false;
+  isActive = true;
+  updateButton();
+  resetLock = true;
+  setTimeout(function () {
+    resetLock = false;
+  }, lockoutTime * 60000); //convert lockout to ms
+  
+
+  setTimeout(function () {
+    armLock = true;
+  }, 180000); //convert lockout to ms
+
+  totalPoints += points;
+  totalPoints += bonus;
+  bonus = 0;
+  $("#bigBox").css(flashGreen);
+  localStorage.setItem("totalPoints", totalPoints);
+  fetchPositiveWord();
 }
 
 function fetchPositiveWord() {
@@ -174,17 +225,15 @@ function fetchPositiveWord() {
   for (let i = 0; i < 9; i++) {
     let addWord = positiveWords[positiveRound[i]];
     $("#box" + (i + 1)).text(addWord);
+    $("#box" + (i + 1)).css(flashGreen);
     boxData.push({ text: addWord, active: true });
   }
   boxData.push({ text: "Email", active: true });
   $("#box10").text("E-mail");
+  $("#box10").css(flashGreen);
 }
-
-
-
-
-
-
-
-
-
+function timeelapsed(){
+  end = Date.now();
+  elapsed = Math.round((end - start)/1000); 
+  if(elapsed<0) elapsed=0  
+  }
