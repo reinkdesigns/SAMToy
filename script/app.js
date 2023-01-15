@@ -40,7 +40,8 @@ recognition.continuous = true;
 recognition.interimResults = true;
 recognition.maxAlternatives = 10;
 
-let totalPoints = parseInt(localStorage.getItem("totalPoints")) || 50;
+let totalPoints = parseInt(localStorage.getItem("totalPoints"));
+if(!totalPoints) totalPoints=50
 console.log(totalPoints);
 
 if (localStorage.getItem("lastVisit") != new Date().toDateString()) {
@@ -168,7 +169,7 @@ function checkWord({ list = 0 }) {
 
   if (list.toLowerCase().includes("spectrum") && !resetLock) {
     if (
-      !(list.includes("account") ||list.includes("email") ||list.includes(".net"))) {
+      !(list.includes("account") ||list.includes("email") || list.includes("app") ||list.includes(".net"))) {
       resetRound();
     }
   }
@@ -178,7 +179,7 @@ function checkWord({ list = 0 }) {
       console.log("match: " + boxData[i].text);
     }
   }
-   let oldBonus = bonus
+  let oldBonus = bonus
   for (let i = 0; i < armStatment.length; i++) {
     if (!armLock && list.toLowerCase().includes(armStatment[i].toLowerCase())) {
       bonus += 5;
@@ -187,8 +188,8 @@ function checkWord({ list = 0 }) {
     }
   }
   if(bonus>oldBonus) $("#bigBox").css(flashGreen);
-  if(bonus<oldBonus) $("#bigBox").css(flashRed);//not Implimented yet
-  
+  if(bonus<oldBonus) $("#bigBox").css(flashRed); //not Implimented yet
+
   if (list.toLowerCase().includes("email")) {
     boxData[9].active = false;
     console.log("match: " + boxData[9].text);
