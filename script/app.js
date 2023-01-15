@@ -47,7 +47,7 @@ console.log(totalPoints);
 if (localStorage.getItem("lastVisit") != new Date().toDateString()) {
   localStorage.setItem("totalPoints", 0);
   localStorage.setItem("lastVisit", new Date().toDateString());
-  totalPoints = 0;
+  totalPoints = 50;
   console.log("New Day");
 } else {
   totalPoints = parseInt(localStorage.getItem("totalPoints"));
