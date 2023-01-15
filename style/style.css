@@ -1,9 +1,16 @@
 
+
+
+
+
 body {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  /* border: solid 15px red;
+  animation: flash 1s linear infinite;
+   */
 }
 
 #top-div{
@@ -36,7 +43,7 @@ body {
 }
 
 .info{
-  top: 700px;
+  top: 800px;
   text-align: center;
   font-family: 'Open Sans', sans-serif;
   font-size: 15px;
@@ -51,20 +58,35 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 150px; /* move container-div down to make space for top-div */
+  margin-top: 30px; /* move container-div down to make space for top-div */
 }
 
 .container {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  margin-top: 100px;
   gap: 30px;
 }
 .point-div{
   font-size: 25px;
   font-family: 'Open Sans', sans-serif;
 }
+#bigBox{
+  margin-top: 250px;
+  background-color: white;
+  border: 10px solid #0078D7; /* blue color used in Charter Spectrum logo */
+  border-radius: 10px;
+  color:black;
+  font-size: 20px;
+  text-align: center;
+  padding: 20px;
+  width: 60vw;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
 .box {
   background-color: white;
@@ -86,17 +108,48 @@ body {
 }
 
 /*css for point and add overall points*/
-  #myButton {
+  #rerollButton {
     width: auto;
     padding-left: 20px;
     padding-right: 20px;
     height: 43px;
     background-color: #0078D7;
     color: rgb(255, 255, 255);
-    border-color: gray;
+    border-color: #0078D7;
     border-radius: 25px;
     font-family: Averta PE Bold, sans-serif;
     font-weight: bold;
     font-size: 20px;
     margin: auto;
+    margin-right: 50px;
+
   }
+
+  #resetButton {
+    width: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 43px;
+    background-color: #0078D7;
+    color: rgb(255, 255, 255);
+    border-color: #0078D7;
+    border-radius: 25px;
+    font-family: Averta PE Bold, sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    margin: auto;
+    margin-left: 50px;
+  }
+
+
+@keyframes flashRed {
+  0% {background-color: transparent;}
+  50% {background-color: red;}
+  100% {background-color: transparent;}
+} 
+
+@keyframes flashGreen {
+  0% {background-color: transparent;}
+  50% {background-color: rgb(28, 241, 75);}
+  100% {background-color: transparent;}
+} 
