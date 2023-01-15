@@ -26,32 +26,21 @@ let flashGreen = {
   "animation-name": "flashGreen",
   "animation-duration": "1s",
 };
-
+// $('#bigBox').css(flashGreen);
 let flashRed = {
   "animation-name": "flashRed",
   "animation-duration": "1s",
 };
-// $('#bigBox').css(flashGreen);
 // $('#bigBox').css(flashRed);
 
-
+let totalPoints = parseInt(getCookie("totalPoints"))
+console.log(totalPoints)
+if(!Number.isInteger(totalPoints)) totalPoints = 50
 
 recognition.continuous = true;
 recognition.interimResults = true;
 recognition.maxAlternatives = 10;
 
-let totalPoints = parseInt(localStorage.getItem("totalPoints"));
-if(!totalPoints) totalPoints=50
-console.log(totalPoints);
-
-if (localStorage.getItem("lastVisit") != new Date().toDateString()) {
-  localStorage.setItem("totalPoints", 0);
-  localStorage.setItem("lastVisit", new Date().toDateString());
-  totalPoints = 50;
-  console.log("New Day");
-} else {
-  totalPoints = parseInt(localStorage.getItem("totalPoints"));
-}
 
 recognition.onresult = function (event) {
   clearTimeout(timer); // Reset timer
@@ -78,9 +67,6 @@ $(document).ready(function () {
 
 var isActive = true;
 
-logAudioLevel();
-
-updateButton();
 
 $("#rerollButton").click(function () {
   fetchPositiveWord();
@@ -89,8 +75,14 @@ $("#rerollButton").click(function () {
 });
 
 $("#resetButton").click(function () {
+  console.log("click")
   resetRound();
 });
+
+logAudioLevel();
+
+updateButton();
+
 
 function updateButton() {
   if (!isActive) {
@@ -215,8 +207,8 @@ function resetRound() {
   totalPoints += points;
   totalPoints += bonus;
   bonus = 0;
+  setCookie({cname:"totalPoints", cvalue:totalPoints})
   $("#bigBox").css(flashGreen);
-  localStorage.setItem("totalPoints", totalPoints);
   fetchPositiveWord();
 }
 
@@ -240,4 +232,36 @@ function timeelapsed(){
   end = Date.now();
   elapsed = Math.round((end - start)/1000); 
   if(elapsed<0) elapsed=0  
+  }
+
+    // console.log(getCookie("totalPoints"))
+
+  function setCookie({cname=0, cvalue=0}) {
+    let d = new Date().toDateString();
+    let tz=new Date().toString().match(/([A-Z]+[\+-][0-9]+)/)[1]
+    expires = "expires="+d+" 23:59:59 "+tz
+    console.log(cname + "=" + cvalue + ";" + expires + ";path=/")
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+
+  
+
+  function deleteCookie(cname){
+    document.cookie = `${cname}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  }
+
+  function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
   }
