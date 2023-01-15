@@ -127,7 +127,7 @@ function logAudioLevel() {
   
   armTime = (180-elapsed)
   if(armTime<0) armTime = 0
-  $("#bigBox").text(`ARMBonus:${bonus} Time left: ${armTime}`)
+  $("#bigBox").text(`ARM Bonus:${bonus} Time left: ${armTime}`)
   if (deadAirDuration > threshold * 1000 && !lock) {
     arrayRandom = getUniqueRandom({ numbers: 3, maxNumber: phrases.length });
     for (let i = 0; i < arrayRandom.length; i++) {
