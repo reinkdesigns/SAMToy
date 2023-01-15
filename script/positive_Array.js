@@ -1,8 +1,32 @@
+const armStatment = [
+  "Apologize",
+  "Sorry",
+  "More Than Happy To Help",
+  "More Than Happy To assist",
+  "See What I Can Do",
+  "Let Me Take A Look",
+  "I Can Assist You",
+  "See what i can do",
+  "frustration",
+  "inconvenience",
+  "Certainly understand",
+  "definitely help you",
+  "take care of",
+  "see what's going on",
+  "help with",
+]
+
+let negativeWords = [ 
+  "can't",
+  "don't",
+  "unable",
+  "unfortunatly",
+];
+
 const positiveWords = [
     "Absolutely",
     "Amazing",
     "Accepted",
-    "Acclaimed",
     "Appreciate",
     "Beautiful",
     "Believe",
@@ -40,13 +64,12 @@ const positiveWords = [
     "Quickly",
     "Recommend",
     "Renowend",
-    "Resolved",
+    "Resolve",
     "Sensational",
     "Skillful",
     "Splendid",
     "Superb",
     "Terrific",
-    "Thriving",
   ];
   
   const phrases = [
