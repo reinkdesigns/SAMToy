@@ -71,7 +71,7 @@ const positiveWords = [
     "Superb",
     "Terrific",
   ];
-  
+  //add objects to array 
   const phrases = [
     "I'm here to help you with this issue. Let me see if I can find a solution.",
     "I'm going to take a closer look and see if I can identify the problem you're experiencing.",
