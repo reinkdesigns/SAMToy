@@ -178,14 +178,17 @@ function checkWord({ list = 0 }) {
       console.log("match: " + boxData[i].text);
     }
   }
+   let oldBonus = bonus
   for (let i = 0; i < armStatment.length; i++) {
     if (!armLock && list.toLowerCase().includes(armStatment[i].toLowerCase())) {
       bonus += 5;
       console.log("match: " + armStatment[i]);
-      $("#bigBox").css(flashGreen);
+
     }
   }
-
+  if(bonus>oldBonus) $("#bigBox").css(flashGreen);
+  if(bonus<oldBonus) $("#bigBox").css(flashRed);//not Implimented yet
+  
   if (list.toLowerCase().includes("email")) {
     boxData[9].active = false;
     console.log("match: " + boxData[9].text);
