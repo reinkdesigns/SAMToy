@@ -20,7 +20,7 @@
       <p class="bottom-text" id="editableText2"></p>
       <p class="bottom-text" id="editableText3"></p>
     </div>
-    <div class="prevent-select" id="bigBox">Bonus: 0</div>
+    <div class="prevent-select" id="bigBox">Bonus Points: 0</div>
     <div class="container-div prevent-select">
       <div class="container">
         <div class="box" id="box1"></div>
@@ -40,10 +40,10 @@
 
  
     <div class="point-div prevent-select">
-      <p class="point-text" id="point-text">Points: 0</p>
+      <p class="point-text" id="point-text"></p>
     </div>
     <div class="point-div prevent-select">
-      <p class="point-text" id="pointTotal-text">Total Points: 0</p>
+      <p class="point-text" id="pointTotal-text"></p>
     </div>
     <div class="buttons">
       <button class="prevent-select" id="rerollButton">Reroll Words</button>
@@ -52,35 +52,10 @@
 
 
 
-    <p class="info">
-      The board will automatically reset after saying the word "Spectrum" (as in
-      "Thank you for calling spectrum internet support.").<br />
-      Or clicking the "End Round" button. To prevent help false starts I won't reset the board more than once every 5
-      minutes.<br>
-      I also won't reset the board if you say Spectrum.net, Spectrum Account or Spectrum Email<br /><br />
-      Points will be added to the total each time the board resets <br />
-      The points are only displayed to you in an effort to gamify the process
-      and are not reported to anyone or used in any metrics.<br />
-      When accessing this game the site will ask to access your mic, Please
-      allow it this access.<br>
-      Each round you will be given 10 words to say during
-      your call.<br />
-      The more words you are able to say the higher your score will be. At the
-      end of each round. You gain 10 points for each word you manage to
-      use<br />
-      and lose 5 points for each word you are unable to use. This means using at
-      least 4 words will give you a positive score of 10 points<br />
-      while using only 3 words will give you a score of -5 points.<br />
-      The site also listens for dead air from your side. This dead air is not
-      factored into the score.<br />
-      However, when detected it will prompt you with helpful phrases to fill
-      this gap.<br />
-      You are given 1 Reroll per round incase you are given a list of words you arent comfretable with using.<br>
-      Good luck and have fun!
-    </p>
+    <p id="info"></p>
 
+    <script src="script/functions.js"></script>
     <script src="script/positive_Array.js"></script>
     <script src="script/app.js"></script>
-    <script src="script/test.js"></script>
   </body>
 </html>

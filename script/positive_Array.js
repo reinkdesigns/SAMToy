@@ -1,19 +1,19 @@
+//ToDo: convert array entries to objects to account for longer words
+
 const armStatment = [
-  "Apologize",
-  "Sorry",
   "More Than Happy To Help",
   "More Than Happy To assist",
   "See What I Can Do",
   "Let Me Take A Look",
-  "I Can Assist You",
-  "See what i can do",
-  "frustration",
-  "inconvenience",
+  "I Can Assist",
+  "I Can Definitely",
+  "I Can Certainly",
   "Certainly understand",
-  "definitely help you",
-  "take care of",
-  "see what's going on",
-  "help with",
+  "Definitely understand",
+  "Definitely Help",
+  "Take Care Of",
+  "See What's Going On",
+  "Help With",
 ]
 
 let negativeWords = [ 
@@ -23,11 +23,34 @@ let negativeWords = [
   "unfortunatly",
 ];
 
+
+
+
+let empathyWords = [
+    "Apologize",
+    "Approachable",
+    "compassion",
+    "Empath",
+    "Encouraging",
+    "Frustration", 
+    "Inconvenience",
+    "Our Support",
+    "Patience",
+    "reliabl",
+    "Sorry to hear",
+    "Sorry you're having",
+    "Sorry that happened",
+    "our services",
+    "sympath",
+    "Understanding", 
+]
+
 const positiveWords = [
     "Absolutely",
     "Amazing",
     "Accepted",
     "Appreciate",
+    "Awesome",
     "Beautiful",
     "Believe",
     "Certain",
@@ -54,7 +77,7 @@ const positiveWords = [
     "Generous",
     "Genius",
     "Great",
-    "Ideally",
+    "Ideal",
     "Impressive",
     "Interesting",
     "Marvelous",
@@ -71,7 +94,6 @@ const positiveWords = [
     "Superb",
     "Terrific",
   ];
-  //add objects to array 
   const phrases = [
     "I'm here to help you with this issue. Let me see if I can find a solution.",
     "I'm going to take a closer look and see if I can identify the problem you're experiencing.",
