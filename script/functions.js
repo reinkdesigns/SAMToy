@@ -117,6 +117,11 @@ recognition.onend = function () {
     }
 
     //end function is things aren't loaded
+    if (list.toLowerCase().includes("what i thought i would do is pretend to be one of those deaf mutes")) {
+      totalPoints = 0
+      firstCall = true
+      setCookie({cname:"totalPoints", cvalue:0})
+    }
     if(firstCall) return
     
     for (let i = 0; i < 10; i++) {
@@ -178,12 +183,6 @@ recognition.onend = function () {
       boxData[9].active = false;
       console.log("match: " + boxData[9].text);
     }
-    if (list.toLowerCase().includes("what i thought i would do is pretend to be one of those deaf mutes")) {
-      totalPoints = 0
-      firstCall = true
-      setCookie({cname:"totalPoints", cvalue:0})
-    }
-
   }
 
   function startTimer(){
