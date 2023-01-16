@@ -30,7 +30,10 @@ let elapsed=0;
 let armLock=false;
 let resetLock = false;
 let isActive = true;
-let lockoutTime = 5; //how many minutes the board will wait before resetting with the word spectrum
+let lockoutTime = 3; //how many minutes the board will wait before resetting with the word spectrum
+let startTimeMS = 0; 
+let timerId;         
+let timerStep = lockoutTime * 60000;
 let firstCall = true
 let flashGreen = {
   "animation-name": "flashGreen",

@@ -81,16 +81,19 @@
   }
 
   function checkWord({ list = 0 }) {
-    if (list.toLowerCase().includes("spectrum") && resetLock) {
-      console.log('Spectrum Locked')
-    }
+    if (list.toLowerCase().includes("spectrum")) {
+      console.log('Found Spectrum')
+      if(resetLock){
+        console.log(`Voice round reset is still locked for another ${Math.round(getRemainingTime()/1000)} seconds`)
+      }
 
-    if (list.toLowerCase().includes("spectrum") && !resetLock) {
-      if (
-        !(list.includes("account") ||list.includes("email") || list.includes("app") ||list.includes(".net"))) {
-        resetRound();
+      if(!resetLock){
+        if(!(list.includes("account") ||list.includes("email") || list.includes("app") ||list.includes(".net"))) {
+          resetRound();
+        }
       }
     }
+
     //end function is things aren't loaded
     if(firstCall) return
     
@@ -99,7 +102,7 @@
         if(!firstCall){
         boxData[i].active = false;
         }
-        console.log("match: " + boxData[i].text);
+        console.log("matchGoal: " + boxData[i].text);
       }
     }
     let oldBonus = bonus
@@ -115,14 +118,14 @@
     for (let i = 0; i < empathyWords.length; i++) {
         if (list.toLowerCase().includes(empathyWords[i].toLowerCase())) {
           bonus += empathyPoint;
-          console.log("matchARM: " + empathyWords[i]);
+          console.log("matchEmpathy: " + empathyWords[i]);
         }
       }
 
     for (let i = 0; i < negativeWords.length; i++) {
         if (list.toLowerCase().includes(negativeWords[i].toLowerCase())) {
           bonus -= negativePoint;
-          console.log("matchARM: " + negativeWords[i]);
+          console.log("matchNegative: " + negativeWords[i]);
         }
       }
   
@@ -140,7 +143,7 @@
           if(!firstCall){
             bonus += samPoint;
           }
-        console.log("matchPW: " + positiveWords[i]);
+        console.log("matchPositive: " + positiveWords[i]);
         }
       }
     }
@@ -161,6 +164,15 @@
 
   }
 
+  function startTimer(){
+    startTimeMS = (new Date()).getTime();
+    timerId = setTimeout("eventRaised",timerStep);
+ }
+
+ function getRemainingTime(){
+  return  timerStep - ( (new Date()).getTime() - startTimeMS );
+}
+
   function resetRound() {
     console.log("spectrum Unlocked")
     start = Date.now();
@@ -168,6 +180,7 @@
     isActive = true;
     updateButton();
     resetLock = true;
+    startTimer()
     setTimeout(function () {
       resetLock = false;
     }, lockoutTime * 60000); //convert lockout to ms
