@@ -1,3 +1,25 @@
+let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+let analyser = audioContext.createAnalyser();
+analyser.fftSize = 2048;
+const bufferLength = analyser.frequencyBinCount;
+const dataArray = new Uint8Array(bufferLength);
+let recognition = new webkitSpeechRecognition();
+recognition.continuous = true;
+recognition.interimResults = true;
+recognition.maxAlternatives = 10;
+recognition.onresult = function (event) {
+  clearTimeout(timer); // Reset timer
+  timer = setTimeout(() => {
+    userPhrase = event.results[event.results.length - 1][0].transcript;
+    console.log("log: " + userPhrase);
+    checkWord({ list: userPhrase.toLowerCase() });
+    if (userPhrase) deadAirDuration = 0;
+  }, 1000); // Log result after 1 second
+};
+recognition.onend = function () {
+  recognition.start();
+};
+
 
   function updateButton() {
     if (!isActive) {
@@ -19,8 +41,8 @@
     return arr;
   }
 
-  function logAudioLevel() {
-    requestAnimationFrame(logAudioLevel);
+  function appLoop() {
+    requestAnimationFrame(appLoop);
     deadAirDuration += Date.now() - startTime;
 
     if (deadAirDuration < deadAirThreshold * msToSec) {
@@ -258,5 +280,7 @@
     }
     return "";
   }
+
+
 
 
