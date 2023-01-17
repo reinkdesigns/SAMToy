@@ -6,6 +6,9 @@ let msToSec = 1000
 let startTime = Date.now();
 let deadAirDuration = 0;
 let boxData = [];
+for (var i = 0; i < 10; i++) { 
+  boxData.push({ text:"", active: true })
+  }
 let points = 0;
 let goodBoxes = 0;
 let badBoxes = 0;
@@ -92,6 +95,8 @@ $("#resetButton").click(function () {
   deadAirDuration = 0
   resetRound();
 });
+
+
 
 setInterval(function(){ //updates the display every seconds
   $("#bigBox").text(`Bonus Points:${bonus} Time left: ${armTime}`)
