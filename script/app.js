@@ -16,6 +16,7 @@ let armPoint = 10
 let samPoint = 5
 let empathyPoint = 5
 let negativePoint = 2
+let holdBonusTime=1;
 let armTime=0
 let armWindow = 180 //time in seconds arm statements add points
 let start = Date.now();
@@ -55,14 +56,15 @@ let infoVar =(
     When accessing this game the site will ask to access your mic, Please allow it this access.
     Each round you will be given 10 words to say during your call. The more words you are able to say the higher your score will be. 
     At the end of each round. You gain ${goodPoint} points for each word you manage to  use
-    and lose ${badPoint} points for each word you are unable to use. This means using at least 4 words will give you a positive score of ${(goodPoint*4) - (badBoxes*6)} points
-    while using only 3 words will give you a score of ${(goodPoint*3) - (badBoxes*7)} points.
+    and lose ${badPoint} points for each word you are unable to use. This means using at least 4 words will give you a positive score of ${(goodPoint*4) - (badPoint*6)} points
+    while using only 3 words will give you a score of ${(goodPoint*3) - (badPoint*7)} points.
     The site also listens for dead air from your side. This dead air is not factored into the score.
     However, when detected it will prompt you with helpful phrases to fill this gap.
     You are given 1 Reroll per round incase you are given a list of words you arent comfretable with using.
     You can also get bonus points if you are using ARM centric phrases(${armPoint} Points), using Empathy words (${empathyPoint} Points), or using SAM buzz words that are not the current rounds goal (${samPoint} points). 
     You will also lose Bonus points for each negative word you use (${negativePoint} Points) Don't worry tho, bonus points can not go below 0.
-    ARM phrases only score points within the 1st ${armWindow} seconds of the call
+    ARM phrases only score points within the 1st ${armWindow} seconds of the call<br>
+    the voice recognition software is not 100% any may ocasionaly not catch some words, or misunderstand you.
     <br><br>Good luck and have fun and say Spectrum to begin!`
 )
 
@@ -88,8 +90,19 @@ $("#rerollButton").click(function () {
 
 $("#resetButton").click(function () {
   deadAirDuration = 0
-  resetRound();l
+  resetRound();
 });
+
+setInterval(function(){ //updates the display every seconds
+  $("#bigBox").text(`Bonus Points:${bonus} Time left: ${armTime}`)
+  $("#point-text").text("Points: " + points);
+  $("#pointTotal-text").text("Total Points: " + totalPoints);
+  for (var i = 0; i < 10; i++) { //updates box color
+    $("#box" + (i + 1)).css({"background-color": "#64c564",color: "white",});
+    if (boxData[i].active) $("#box" + (i + 1)).css({"background-color": "white", color: "black" });
+  }
+},1000)
+
 appLoop();
 updateButton();
 

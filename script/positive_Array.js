@@ -17,9 +17,12 @@ const armStatment = [
 ]
 
 let negativeWords = [ 
-  "can't",
-  "don't",
-  "unable",
+  "i can't",
+  "we can't",
+  "i don't",
+  "we don't",
+  "are unable",
+  "not able",
   "unfortunatly",
 ];
 

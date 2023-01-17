@@ -66,41 +66,29 @@ recognition.onend = function () {
     
     armTime = (armWindow-elapsed)
     if(armTime<0) armTime = 0
-    $("#bigBox").text(`Bonus Points:${bonus} Time left: ${armTime}`)
+
     if (deadAirDuration > deadAirThreshold * msToSec && !lock && !firstCall) {
       arrayRandom = getUniqueRandom({ numbers: 3, maxNumber: phrases.length });
       for (let i = 0; i < arrayRandom.length; i++) {
         $("#editableText" + (i + 1)).text(phrases[arrayRandom[i]]);
       }
-
       $("#top-div").fadeIn();
       lock = true;
     }
-    startTime = Date.now();
 
+    startTime = Date.now();
     goodBoxes = 0;
     badBoxes = 0;
-    points = 0;
-    // assign the text and active status of the boxes based on the array
-    for (var i = 0; i < 10; i++) {
-      if(firstCall) continue
-      if (!boxData[i].active) {
-        $("#box" + (i + 1)).css({
-          "background-color": "#64c564",
-          color: "white",
-        });
-        goodBoxes++;
-      } else {
-        $("#box" + (i + 1)).css({ "background-color": "white", color: "black" });
-        badBoxes++;
-      }
-    }
 
+    for (var i = 0; i < 10; i++) {
+    if(firstCall) continue
+    if (boxData[i].active) badBoxes++;
+    if (!boxData[i].active) goodBoxes++;
     // calculate points based on good and bad boxes
-    points += goodBoxes * goodPoint - badBoxes * badPoint;
-    $("#point-text").text("Points: " + points);
-    $("#pointTotal-text").text("Total Points: " + totalPoints);
+    points = (goodBoxes * goodPoint) - (badBoxes * badPoint);
+    
   }
+}
 
   function checkWord({ list = 0 }) {
     if (list.toLowerCase().includes("spectrum")) {
@@ -195,13 +183,21 @@ recognition.onend = function () {
 }
 
   function resetRound() {
-    console.log("spectrum Unlocked")
+    console.log("Spectrum Unlocked")
+
+    if(!firstCall){ //correct for the 1st time you say spectrum when opening the website
+      totalPoints += points;
+      totalPoints += bonus;
+      setCookie({cname:"totalPoints", cvalue:totalPoints})
+      console.log(`New Total: ${getCookie("totalPoints")}`)
+      $("#bigBox").css(flashGreen);
+    }
+    bonus = 0;
+    firstCall = false
     start = Date.now();
     armLock = false;
     isActive = true;
-    updateButton();
     resetLock = true;
-    startTimer()
     setTimeout(function () {
       resetLock = false;
     }, lockoutTime * 60000); //convert lockout to ms
@@ -209,18 +205,9 @@ recognition.onend = function () {
     setTimeout(function () {
       armLock = true;
     }, armWindow * 1000); //convert lockout to ms
-    bonus = 0;
-
-    if(!firstCall){ //correct for the 1st time you say spectrum when opening the website
-      totalPoints += points;
-      totalPoints += bonus;
-      setCookie({cname:"totalPoints", cvalue:totalPoints})
-      console.log(getCookie("totalPoints"))
-
-      $("#bigBox").css(flashGreen);
-    }
-
-    firstCall = false
+    
+    updateButton();
+    startTimer()
     fetchPositiveWord();
   }
 
