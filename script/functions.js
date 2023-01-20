@@ -101,7 +101,8 @@ recognition.onend = function () {
       if(!resetLock){
         if(!(list.includes("account") ||list.includes("email") || list.includes("app") ||list.includes(".net"))) {
           resetRound();
-        }
+          console.log("ran round reset")
+        }else{ console.log("negate Spectrum")}
       }
     }
 
