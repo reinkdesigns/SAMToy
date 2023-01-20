@@ -53,8 +53,9 @@ recognition.onend = function () {
       }
     }
 
-    if (deadAirDuration > deadAirThreshold * msToSec *5 && !firstCall) { //if you haven't spoken in this long, you arent on a call. this will account for losing points when getting a call during green time.
+    if (deadAirDuration > deadAirThreshold * msToSec *(lockoutTime +2) && !firstCall) { //if you haven't spoken in this long, you arent on a call. this will account for losing points when getting a call during green time.
       firstCall = true
+      console.log("Dead Air First Call Lock")
       if (lock) {
         $("#top-div").fadeOut(0, function () {});
         lock = false;
@@ -110,7 +111,10 @@ recognition.onend = function () {
       firstCall = true
       setCookie({cname:"totalPoints", cvalue:0})
     }
-    if(firstCall) return
+    if(firstCall){
+      console.log("First Call Lock")
+      return
+    }
     
     for (let i = 0; i < 10; i++) {
       if (list.toLowerCase().includes(boxData[i].text.toLowerCase())) {

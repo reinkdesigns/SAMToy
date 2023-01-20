@@ -1,6 +1,6 @@
 //ToDo: convert array entries to objects to account for longer words
 
-const armStatment = [
+let armStatment = [
   "More Than Happy To Help",
   "More Than Happy To assist",
   "See What I Can Do",
@@ -14,6 +14,13 @@ const armStatment = [
   "Take Care Of",
   "See What's Going On",
   "Help With",
+]
+
+let armDisplay =[
+  "I Would be more than happy to assist you with [Issue]",
+  "I Would be more than happy to help with [Issue]",
+  "I will see what I can do to to correct [issue] and restore your services.",
+  "",
 ]
 
 let negativeWords = [ 
@@ -48,7 +55,7 @@ let empathyWords = [
     "Understanding", 
 ]
 
-const positiveWords = [
+let positiveWords = [
     "Absolutely",
     "Amazing",
     "Accepted",
@@ -96,8 +103,9 @@ const positiveWords = [
     "Splendid",
     "Superb",
     "Terrific",
+    "Very Good",
   ];
-  const phrases = [
+  let phrases = [
     "I'm here to help you with this issue. Let me see if I can find a solution.",
     "I'm going to take a closer look and see if I can identify the problem you're experiencing.",
     "I'm going to check a few things on my end and see if I can find a resolution.",
