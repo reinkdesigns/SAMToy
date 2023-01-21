@@ -82,6 +82,7 @@ $(document).ready(function () {
   }
   fetchPositiveWord();
   $("#top-div").fadeOut(0, 0);
+  $(".armBox").fadeOut(0, 0);
 });
 
 $("#rerollButton").click(function () {
@@ -98,20 +99,18 @@ $("#resetButton").click(function () {
 
 
 
-setInterval(function(){ //updates the display every seconds
-  $("#bigBox").text(`Bonus Points:${bonus} Time left: ${armTime}`)
-  $("#point-text").text("Points: " + points);
-  $("#pointTotal-text").text("Total Points: " + totalPoints);
-  for (var i = 0; i < 10; i++) { //updates box color
-    $("#box" + (i + 1)).css({"background-color": "#64c564",color: "white",});
-    if (boxData[i].active) $("#box" + (i + 1)).css({"background-color": "white", color: "black" });
-  }
-},1000)
+function fetchArm(){
+arrayRandom = getUniqueRandom({ numbers: 3, maxNumber: armDisplay.length });
+for (let i = 0; i < arrayRandom.length; i++) {
+  $("#armText" + (i + 1)).text(armDisplay[arrayRandom[i]]);
+}
+$(".armBox").fadeIn(0);
+}
 
+
+setInterval(() => updateHTML(),1000)
 appLoop();
 updateButton();
-
-
 
 
 

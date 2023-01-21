@@ -42,54 +42,54 @@ recognition.onend = function () {
   }
 
   function appLoop() {
-    requestAnimationFrame(appLoop);
-    deadAirDuration += Date.now() - startTime;
+      requestAnimationFrame(appLoop);
+      deadAirDuration += Date.now() - startTime;
 
-    if (deadAirDuration < deadAirThreshold * msToSec) {
-      if (lock) {
-        // console.log("Dead air Cleared");
-        $("#top-div").fadeOut(4000, function () {});
-        lock = false;
+      if (deadAirDuration < deadAirThreshold * msToSec) {
+        if (lock) {
+          // console.log("Dead air Cleared");
+          $("#top-div").fadeOut(4000, function () {});
+          lock = false;
+        }
       }
-    }
 
-    if (deadAirDuration > deadAirThreshold * msToSec *(lockoutTime +2) && !firstCall) { //if you haven't spoken in this long, you arent on a call. this will account for losing points when getting a call during green time.
-      firstCall = true
-      console.log("Dead Air First Call Lock")
-      if (lock) {
-        $("#top-div").fadeOut(0, function () {});
-        lock = false;
+      if (deadAirDuration > deadAirThreshold * msToSec *(lockoutTime +2) && !firstCall) { //if you haven't spoken in this long, you arent on a call. this will account for losing points when getting a call during green time.
+        firstCall = true
+        console.log("Dead Air First Call Lock")
+        if (lock) {
+          $("#top-div").fadeOut(0, function () {});
+          lock = false;
+        }
       }
-    }
 
-    
-    timeelapsed()
-    
-    armTime = (armWindow-elapsed)
-    if(armTime<0) armTime = 0
+      
+      timeelapsed()
+      
+      armTime = (armWindow-elapsed)
+      if(armTime<0) armTime = 0
 
-    if (deadAirDuration > deadAirThreshold * msToSec && !lock && !firstCall) {
-      arrayRandom = getUniqueRandom({ numbers: 3, maxNumber: phrases.length });
-      for (let i = 0; i < arrayRandom.length; i++) {
-        $("#editableText" + (i + 1)).text(phrases[arrayRandom[i]]);
+      if (deadAirDuration > deadAirThreshold * msToSec && !lock && !firstCall) {
+        arrayRandom = getUniqueRandom({ numbers: 3, maxNumber: phrases.length });
+        for (let i = 0; i < arrayRandom.length; i++) {
+          $("#editableText" + (i + 1)).text(phrases[arrayRandom[i]]);
+        }
+        $("#top-div").fadeIn();
+        lock = true;
       }
-      $("#top-div").fadeIn();
-      lock = true;
+
+      startTime = Date.now();
+      goodBoxes = 0;
+      badBoxes = 0;
+
+      for (var i = 0; i < 10; i++) {
+      if(firstCall) continue
+      if (boxData[i].active) badBoxes++;
+      if (!boxData[i].active) goodBoxes++;
+      // calculate points based on good and bad boxes
+      points = (goodBoxes * goodPoint) - (badBoxes * badPoint);
+      
     }
-
-    startTime = Date.now();
-    goodBoxes = 0;
-    badBoxes = 0;
-
-    for (var i = 0; i < 10; i++) {
-    if(firstCall) continue
-    if (boxData[i].active) badBoxes++;
-    if (!boxData[i].active) goodBoxes++;
-    // calculate points based on good and bad boxes
-    points = (goodBoxes * goodPoint) - (badBoxes * badPoint);
-    
   }
-}
 
   function checkWord({ list = 0 }) {
     if (list.toLowerCase().includes("spectrum")) {
@@ -116,7 +116,9 @@ recognition.onend = function () {
       console.log("First Call Lock")
       return
     }
-    
+
+    setTimeout(() => {$(".armBox").fadeOut(2000)}, 4000);
+
     for (let i = 0; i < 10; i++) {
       if (list.toLowerCase().includes(boxData[i].text.toLowerCase())) {
         if(!firstCall){
@@ -179,17 +181,17 @@ recognition.onend = function () {
   }
 
   function startTimer(){
-    startTimeMS = (new Date()).getTime();
-    timerId = setTimeout("eventRaised",timerStep);
- }
+      startTimeMS = (new Date()).getTime();
+      timerId = setTimeout("eventRaised",timerStep);
+  }
 
- function getRemainingTime(){
-  return  timerStep - ( (new Date()).getTime() - startTimeMS );
-}
+  function getRemainingTime(){
+    return  timerStep - ( (new Date()).getTime() - startTimeMS );
+  }
 
   function resetRound() {
     console.log("Spectrum Unlocked")
-
+    fetchArm()
     if(!firstCall){ //correct for the 1st time you say spectrum when opening the website
       totalPoints += points;
       totalPoints += bonus;
@@ -272,6 +274,16 @@ recognition.onend = function () {
     return "";
   }
 
-
-
+  function updateHTML(){
+    //updates the display every seconds
+        $("#bigBox").text(`Bonus Points:${bonus} Time left: ${armTime}`)
+        $("#point-text").text("Points: " + points);
+        $("#pointTotal-text").text("Total Points: " + totalPoints);
+        for (var i = 0; i < 10; i++) { //updates box color
+          $("#box" + (i + 1)).css({"background-color": "#64c564",color: "white",});
+          if (boxData[i].active) $("#box" + (i + 1)).css({"background-color": "white", color: "black" });
+        }
+      }
+    
+    
 

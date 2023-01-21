@@ -14,14 +14,24 @@ let armStatment = [
   "Take Care Of",
   "See What's Going On",
   "Help With",
+  "Investigate",
 ]
 
-let armDisplay =[
-  "I Would be more than happy to assist you with [Issue]",
-  "I Would be more than happy to help with [Issue]",
-  "I will see what I can do to to correct [issue] and restore your services.",
-  "",
-]
+let armDisplay = [
+  "I am more than happy to help you with any [Issue] you may be experiencing.",
+  "I am more than happy to assist you in resolving any [Issue] you may be facing.",
+  "I can certainly understand your concern, I'll investigate the [Issue] and take the necessary steps to resolve it.",
+  "Let me take a look and see if I can diagnose and resolve the [Issue] you are having.",
+  "I can assist you in troubleshooting and fixing any [Issue] problems you may be having.",
+  "I can definitely help you resolve your [Issue].",
+  "I can certainly assist you in resolving any [Issue] you may be experiencing.",
+  "I Certainly understand the frustration of [Issue] and I will do my best to help you fix it.",
+  "I definitely understand the importance of resolving your [Issue] and I will do everything I can to help you get it done.",
+  "I will take care of any [Issue] you may be experiencing and get you back to normal as soon as possible.",
+  "Let me take a look and see what's going on with your [Issue] so we can resolve the issue.",
+  "I am here to help with any [Issue] you may be facing and get you back to normal quickly.",
+  "Let me see what I can do to help fix your [Issue].",
+  ]
 
 let negativeWords = [ 
   "i can't",

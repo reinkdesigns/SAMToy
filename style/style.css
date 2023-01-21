@@ -109,6 +109,26 @@ body {
   justify-content: center;
 }
 
+.armBox {
+  position: absolute;
+  background-color: #f8f8f8;
+  border: .1rem solid #0078D7; /* blue color used in Charter Spectrum logo */
+  border-radius: 10px;
+  color:black;
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.25rem;
+  min-width: 20rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.arm-text{
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+
 .button-div {
   text-align: center;
 }
