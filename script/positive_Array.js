@@ -45,16 +45,16 @@ let negativeWords = [
   ["unfortunately",],
 ];
 
-let empathyWords = [
+let empathyWords = [ //if you see words here with letters missing, that is intentions. It is to account for tences
     ["Apologize",],
     ["Approachable",],
     ["compassion",],
     ["Empath",],
     ["Encouraging",],
-    ["Frustration",], 
-    ["Inconvenience",],
+    ["Frustrat",], 
+    ["Inconvenienc",],
     ["Our Support",],
-    ["Patience",],
+    ["Patien",],
     ["reliabl",],
     ["Sorry to hear",],
     ["Sorry you're having",],
@@ -154,11 +154,13 @@ let phrases = [
 ];
 
 let ignoreWords =[ //list of words to ignore a round reset if said in the same line as the word spectrum
+  ".com",
+  ".net",
+  "app",
   "account",
   "email",
-  "app",
-  ".net",
-  ".com",
   "modem",
+  "remote",
   "router",
+  "technician",
   ]
