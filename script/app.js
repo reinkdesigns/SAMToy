@@ -1,14 +1,11 @@
 let lock = false;
-let timer;
-let userPhrase;
-var deadAirThreshold = 60; //seconds you can go without speaking before dead air reminder comes up
-let msToSec = 1000
-let startTime = Date.now();
+let deadAirThreshold = 60; //seconds you can go without speaking before dead air reminder comes up
+let greenTimeout = 180; //used to automaticly reset board if there are long times between calls 
 let deadAirDuration = 0;
 let boxData = [];
-for (var i = 0; i < 10; i++) { 
-  boxData.push({ text:"", active: true })
-  }
+for (let i = 0; i < 10; i++) boxData.push({ text:"", active: true })
+
+//points
 let points = 0;
 let goodBoxes = 0;
 let badBoxes = 0;
@@ -18,42 +15,35 @@ let badPoint = 10
 let armPoint = 10
 let samPoint = 5
 let empathyPoint = 5
-let negativePoint = 2
-let holdBonusTime=1;
+let negativePoint = -2
+
 let armTime=0
 let armWindow = 180 //time in seconds arm statements add points
-let start = Date.now();
-let end=0;
-let elapsed=0;
-let armLock=false;
-let resetLock = false;
-let isActive = true;
+let armDuration = 10 //minimum time ARM reminder will display before fading away
+let isActive = true; //boolean state for the reroll button
+let callTime = 0 //clock that incriments every seconds. new rounds set this to 0
 let lockoutTime = 3; //how many minutes the board will wait before resetting with the word spectrum
-let startTimeMS = 0; 
-let timerId;         
-let timerStep = lockoutTime * 60000;
+let minimumRound = lockoutTime*60
+     
+
 let firstCall = true
+let timerLock = false
+
+let ARMhelp = parseInt(getCookie("ARMhelp"))
+if(!Number.isInteger(ARMhelp)) ARMhelp = 1
+$("#toggle-switch-input").prop("checked", ARMhelp);
 
 let totalPoints = parseInt(getCookie("totalPoints"))
 if(!Number.isInteger(totalPoints)) totalPoints = 0
 
-let flashGreen = {
-  "animation-name": "flashGreen",
-  "animation-duration": "0.50s",
-};
-// $('#bigBox').css(flashGreen);
-let flashRed = {
-  "animation-name": "flashRed",
-  "animation-duration": "0.50s",
-};
-// $('#bigBox').css(flashRed);
 
 // deleteCookie("totalPoints")
 let infoVar =(
     `The board will automatically reset after saying the word "Spectrum" (as in
     "Thank you for calling spectrum internet support.").<br>
-    Or clicking the "New Round" button. To prevent help false starts I won't reset the board more than once every ${lockoutTime} minutes.
-    I also won't reset the board if you say Spectrum.net, Spectrum Account or Spectrum Email<br><br>
+    Or clicking the "New Round" button. To help with short calls, I won't score any round that lasts less than ${lockoutTime} minutes.
+    There are a few phrases that include the word "Spectrum" such as "Spectrum Email" I will do my best not to end the round early if I hear these, but i am unable ot account 
+    for all of these without making it to difficult to natrualy start a new round<br><br>
     Points will be added to the total each time the board resets 
     The points are only displayed to you in an effort to gamify the process and are not reported to anyone or used in any metrics.
     When accessing this game the site will ask to access your mic, Please allow it this access.
@@ -81,10 +71,19 @@ $(document).ready(function () {
     $("#editableText" + (i + 1)).text(phrases[arrayRandom[i]]);
   }
   fetchPositiveWord();
-  $("#top-div").fadeOut(0, 0);
-  $(".armBox").fadeOut(0, 0);
+  $("#top-div").fadeOut(0);
+  $(".armBox").fadeOut(0);
 });
 
+$("#toggle-switch-input").click(function() {
+  ARMhelp = 1
+  if (!$(this).is(':checked')){
+     ARMhelp = 0
+     $(".armBox").fadeOut(0)
+  }
+  document.cookie = `ARMhelp = ${ARMhelp}`;
+  });
+//
 $("#rerollButton").click(function () {
   console.log("click")
   fetchPositiveWord();
@@ -97,24 +96,24 @@ $("#resetButton").click(function () {
   resetRound();
 });
 
+// document.addEventListener("visibilitychange", function() {
+//   if (document.visibilityState === "visible"){
+//     console.log("focuse found")
+//   }
+//   if (document.visibilityState === "hidden"){
+//     console.log("focuse lost")
+//   }
+// })
+//if (document.visibilityState === "hidden") {
 
 
-function fetchArm(){
-arrayRandom = getUniqueRandom({ numbers: 3, maxNumber: armDisplay.length });
-for (let i = 0; i < arrayRandom.length; i++) {
-  $("#armText" + (i + 1)).text(armDisplay[arrayRandom[i]]);
-}
-$(".armBox").fadeIn(0);
-}
-
-
-setInterval(() => updateHTML(),1000)
+setInterval(() => {
+  callTime++
+  deadAirDuration++
+  updateHTML()
+},1000)
 appLoop();
 updateButton();
-
-
-
-
 
 
 

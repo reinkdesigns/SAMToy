@@ -25,16 +25,18 @@
       <div class="container">
         <div class="box" id="box1"></div>
         <div class="box" id="box2"></div>
-        <div class="box" id="box3"></div>
+        <div class="box" id="box3">Say Spectrum</div>
         <div class="box" id="box4"></div>
         <div class="box" id="box5"></div>
         <div class="box" id="box6"></div>
         <div class="box" id="box7"></div>
-        <div class="box" id="box8"></div>
+        <div class="box" id="box8">To Start</div>
         <div class="box" id="box9"></div>
         <div class="box" id="box10"></div>
       </div>
     </div>
+
+
 
     <div class="armBox" id="ARM">
       <p class="top-text">
@@ -47,25 +49,25 @@
       </p>
       <p class="arm-text" id="armText3">I definitely understand the importance of resolving your [Issue] and I will do everything I can to help you get it done.
       </p>
-
-
     </div>
 
- 
-    <div class="point-div prevent-select">
-      <p class="point-text" id="point-text"></p>
-    </div>
-    <div class="point-div prevent-select">
-      <p class="point-text" id="pointTotal-text"></p>
-    </div>
-    <div class="buttons">
-      <button class="prevent-select" id="rerollButton">Reroll Words</button>
-      <button class="prevent-select" id="resetButton">New Round</button>
-    </div>
+    <div class="lowerContainer">
+      <div class="toggle-switch">
+        <input type="checkbox" id="toggle-switch-input">
+        <label for="toggle-switch-input"></label>
+        <span class="optionText prevent-select">ARM Examples</span>
+      </div>
+      <div class="pointContainer">
+        <div class="point-div prevent-select" id="point-text"></div>
+        <div class="point-div prevent-select" id="pointTotal-text"></div>
+      </div>
+  <div class="buttons">
+    <button class="prevent-select" id="rerollButton">Reroll Words</button>
+    <button class="prevent-select" id="resetButton">New Round</button>
+  </div>
+  <p id="info"></p>
+</div>
 
-
-
-    <p id="info"></p>
 
     <script src="script/functions.js"></script>
     <script src="script/positive_Array.js"></script>
