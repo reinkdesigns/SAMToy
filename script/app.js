@@ -42,7 +42,7 @@ let infoVar =(
     `The board will automatically reset after saying the word "Spectrum" (as in
     "Thank you for calling spectrum internet support.").<br>
     Or clicking the "New Round" button. To help with short calls, I won't score any round that lasts less than ${lockoutTime} minutes.
-    There are a few phrases that include the word "Spectrum" such as "Spectrum Email" I will do my best not to end the round early if I hear these, but i am unable ot account 
+    There are a few phrases that include the word "Spectrum" such as "Spectrum Email" I will do my best not to end the round early if I hear these, but I am unable to account 
     for all of these without making it to difficult to natrualy start a new round<br><br>
     Points will be added to the total each time the board resets 
     The points are only displayed to you in an effort to gamify the process and are not reported to anyone or used in any metrics.
