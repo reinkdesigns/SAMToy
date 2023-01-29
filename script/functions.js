@@ -9,29 +9,29 @@ let userPhrase;
 recognition.continuous = true;
 recognition.interimResults = true;
 recognition.maxAlternatives = 10;
-recognition.onresult = function (event) {
-  clearTimeout(timer); // Reset timer
-  timer = setTimeout(() => {
-    userPhrase = event.results[event.results.length - 1][0].transcript;
-    console.log("log: " + userPhrase);
-    checkWord({ list: userPhrase.toLowerCase() });
-    if (userPhrase){
-      deadAirDuration = 0;
-    }
-    console.log(`dead air duration: ${deadAirDuration}`)
-  }, 1000); // Log result after 1 second
-};
-recognition.onend = function () {
-  recognition.start();
-};
+recognition.onresult = (e)=>{logInputRunCheckWord(e)};
+recognition.onend = ()=>{recognition.start()};
+
+
+  function logInputRunCheckWord(e){
+    clearTimeout(timer); // Reset timer
+    timer = setTimeout(() => {
+      userPhrase = e.results[e.results.length - 1][0].transcript;
+      console.log("log: " + userPhrase);
+      checkWord({ list: userPhrase.toLowerCase() });
+      if (userPhrase) deadAirDuration = 0;
+      if (callTime>armDuration) setTimeout(() => {
+        $(".armBox").fadeOut(2000)
+      }, 4000);
+    }, 1000); // Log result after 1 second
+  }
 
   function updateButton() {
+    $("#rerollButton").css("background-color", "#0078D7");
+    $("#rerollButton").removeAttr("disabled");
     if (!isActive) {
       $("#rerollButton").css("background-color", "#5f798f");
       $("#rerollButton").attr("disabled", "true");
-    } else {
-      $("#rerollButton").css("background-color", "#0078D7");
-      $("#rerollButton").removeAttr("disabled");
     }
   }
 
@@ -53,7 +53,7 @@ recognition.onend = function () {
       }
     }
     if (deadAirDuration > deadAirThreshold+greenTimeout && !firstCall) { //if you haven't spoken in this long, you arent on a call. this will account for losing points when getting a call during green time.
-      if(!firstCall) passScore()
+      passScore()
       firstCall = true
       if (lock) {
         $("#top-div").fadeOut(0, function () {});
@@ -63,7 +63,7 @@ recognition.onend = function () {
   }
   
   function appLoop() {
-      requestAnimationFrame(appLoop);
+      // requestAnimationFrame(appLoop);
       checkDeadAir()
 
       armTime = (armWindow-callTime)
@@ -111,25 +111,22 @@ recognition.onend = function () {
     let oldBonus = bonus
     let matchWord=[];
 
-
-
     let isIncluded = ignoreWords.some(word => list.includes(word));
       if(list.toLowerCase().includes("spectrum") && !isIncluded) {
         let purgeScore = 0
         if(callTime < minimumRound) purgeScore = 1
+        if((points + bonus)>0 && countShortCalls) purgeScore = 0 //if teh agent managed to get a positive score on a 2 minute call, this will makesure that score is counted. otherwise we dont want to punish the user for a call thats too short to grade
         resetRound(purgeScore);
       }
-
-
     if (list.toLowerCase().includes("what i thought i would do is pretend to be one of those deaf mutes")) {
       totalPoints = 0
       firstCall = true
       setCookie({cname:"totalPoints", cvalue:0})
+      //cheat code to clear totalPoints. not important, can be removed, used for debugging.
     }
 
     if(firstCall) return
-    
-    if(callTime>armDuration) setTimeout(() => {$(".armBox").fadeOut(2000)}, 4000);
+
 
     getMatchWord({array:negativeWords,list:list,matchWord:matchWord,points:negativePoint})
     getMatchWord({array:empathyWords,list:list,matchWord:matchWord,points:samPoint})
@@ -151,30 +148,27 @@ recognition.onend = function () {
     }
     
     if (bonus<0) bonus = 0
-    if(bonus>oldBonus) pulseColor({div:"#bigBox",color:"pulse-green"})
+    if(bonus>oldBonus) pulseColor({div:"#bigBox"})
     if(bonus<oldBonus) pulseColor({div:"#bigBox",color:"pulse-red"})
   }
-
-  
 
   function pulseColor({div=0,color="pulse-green"}){
     $(div).addClass(color);
     setTimeout(function() {$(div).removeClass(color);}, 1000);
   }
 
-
-function passScore(){
-    totalPoints += points;
-    totalPoints += bonus;
-    setCookie({cname:"totalPoints", cvalue:totalPoints})
-    console.log(`New Total: ${getCookie("totalPoints")}`)
-    pulseColor({div:"#bigBox",color:"pulse-green"})
-}
+  function passScore(){
+      totalPoints += points;
+      totalPoints += bonus;
+      setCookie({cname:"totalPoints", cvalue:totalPoints})
+      console.log(`New Total: ${getCookie("totalPoints")}`)
+      pulseColor({div:"#bigBox",color:"pulse-green"})
+  }
 
   function resetRound(purgeScore=0) {
-    console.log("Spectrum Unlocked")
     fetchArm()
     if(!purgeScore) passScore()
+    deadAirDuration = 0
     callTime=0
     bonus = 0;
     firstCall = false
@@ -233,8 +227,10 @@ function passScore(){
     return "";
   }
 
-  function updateHTML() {
-    //updates the display every seconds
+  function updateTick() {
+    //updates HTML the display and timer variables every seconds
+        callTime++ //this function isnt being called while not in focus
+        deadAirDuration++
         alertFirstCall()
         $("#bigBox").text(`Bonus Points:${bonus} Time left: ${armTime}`)
         $("#point-text").text("Points: " + points);
@@ -245,7 +241,7 @@ function passScore(){
         }
       }
     
-  function alertFirstCall(){
+  function alertFirstCall() {
     if(firstCall){
       for(let i=1;i<11;i++){
         $('#box'+i).text("");
@@ -253,10 +249,9 @@ function passScore(){
       $('#box3').text("Say Spectrum");
       $('#box8').text("To Start");
     }
-
   }
 
-  function fetchArm(){
+  function fetchArm() {
     if(!ARMhelp) return
   arrayRandom = getUniqueRandom({ numbers: 3, maxNumber: armDisplay.length });
   for (let i = 0; i < arrayRandom.length; i++) {
@@ -264,4 +259,16 @@ function passScore(){
   }
   $(".armBox").fadeIn(0);
   }
+
+  function minScorTime(){
+    let minTime = Math.floor(minimumRound/60)
+    let secTime = minimumRound%60
+    let timeVar ="";
+    if(minTime) timeVar += `${minTime} Minutes`
+    if(minTime && secTime) timeVar += ` and `
+    if(secTime) timeVar += `${secTime} Seconds`
+    return timeVar
+  }
+
+
 

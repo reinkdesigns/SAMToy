@@ -195,7 +195,7 @@ body {
   align-items: center;
 }
 
-#rerollButton, #resetButton {
+#rerollButton, #newRoundButton {
   width: auto;
   background-color: #0078D7;
   color: rgb(255, 255, 255);
@@ -225,20 +225,17 @@ body {
   animation: flashRed 1s infinite;
 }
 
-
-@keyframes pulseRed {
-  0% {background-color: transparent;}
-  50% {background-color: red;}
-  100% {background-color: transparent;}
-} 
-
 @keyframes pulseGreen {
   0% {background-color: transparent;}
   50% {background-color: rgb(28, 241, 75);}
   100% {background-color: transparent;}
 } 
 
-
+@keyframes pulseRed {
+  0% {background-color: transparent;}
+  50% {background-color: red;}
+  100% {background-color: transparent;}
+} 
 
 
 .overlay-centerline {

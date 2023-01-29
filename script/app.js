@@ -17,14 +17,17 @@ let samPoint = 5
 let empathyPoint = 5
 let negativePoint = -2
 
+let countShortCalls = true //should i count short calls if they have a positive score
 let armTime=0
 let armWindow = 180 //time in seconds arm statements add points
 let armDuration = 10 //minimum time ARM reminder will display before fading away
 let isActive = true; //boolean state for the reroll button
-let callTime = 0 //clock that incriments every seconds. new rounds set this to 0
-let lockoutTime = 3; //how many minutes the board will wait before resetting with the word spectrum
-let minimumRound = lockoutTime*60
-     
+let callTime = 0 //clock that incriments every seconds. new rounds set this to 0 
+let minimumRound = 180 //how many seconds after a new call before the score counts.
+
+
+
+
 
 let firstCall = true
 let timerLock = false
@@ -36,12 +39,11 @@ $("#toggle-switch-input").prop("checked", ARMhelp);
 let totalPoints = parseInt(getCookie("totalPoints"))
 if(!Number.isInteger(totalPoints)) totalPoints = 0
 
-
 // deleteCookie("totalPoints")
 let infoVar =(
     `The board will automatically reset after saying the word "Spectrum" (as in
     "Thank you for calling spectrum internet support.").<br>
-    Or clicking the "New Round" button. To help with short calls, I won't score any round that lasts less than ${lockoutTime} minutes.
+    Or clicking the "New Round" button. To help with short calls, I won't score any round that lasts less than ${minScorTime()}.
     There are a few phrases that include the word "Spectrum" such as "Spectrum Email" I will do my best not to end the round early if I hear these, but I am unable to account 
     for all of these without making it to difficult to natrualy start a new round<br><br>
     Points will be added to the total each time the board resets 
@@ -52,13 +54,13 @@ let infoVar =(
     and lose ${badPoint} points for each word you are unable to use. This means using at least 4 words will give you a positive score of ${(goodPoint*4) - (badPoint*6)} points
     while using only 3 words will give you a score of ${(goodPoint*3) - (badPoint*7)} points.
     The site also listens for dead air from your side. This dead air is not factored into the score.
-    However, when detected it will prompt you with helpful phrases to fill this gap.
-    You are given 1 Reroll per round incase you are given a list of words you arent comfretable with using.
+    However, when detected it will prompt you with helpful phrases to fill this gap.<br>
+    You are given 1 Reroll per round incase you are given a list of words you aren't comfortable with using.
     You can also get bonus points if you are using ARM centric phrases(${armPoint} Points), using Empathy words (${empathyPoint} Points), or using SAM buzz words that are not the current rounds goal (${samPoint} points). 
-    You will also lose Bonus points for each negative word you use (${negativePoint} Points) Don't worry tho, bonus points can not go below 0.
+    You will also lose Bonus points for each negative word you use (${negativePoint} Points). Don't worry, bonus points can not go below 0.
     ARM phrases only score points within the 1st ${armWindow} seconds of the call<br>
-    the voice recognition software is not 100% any may ocasionaly not catch some words, or misunderstand you.
-    <br><br>Good luck and have fun and say Spectrum to begin!`
+    the voice recognition software is not 100% any may occasionally not catch some words, or misunderstand you.
+    <br><br>Good luck and have fun and say Spectrum to start!`
 )
 
 $('#info').html(infoVar)
@@ -85,16 +87,18 @@ $("#toggle-switch-input").click(function() {
   });
 //
 $("#rerollButton").click(function () {
+  if(!firstCall){
   console.log("click")
   fetchPositiveWord();
-  isActive = !isActive;
+  isActive = false;
   updateButton();
+  }
 });
 
-$("#resetButton").click(function () {
-  deadAirDuration = 0
-  resetRound();
-});
+$("#newRoundButton").click(function () {resetRound();});
+
+setInterval(()=>{updateTick()},1000)
+setInterval(()=>{appLoop()},1)
 
 // document.addEventListener("visibilitychange", function() {
 //   if (document.visibilityState === "visible"){
@@ -105,17 +109,6 @@ $("#resetButton").click(function () {
 //   }
 // })
 //if (document.visibilityState === "hidden") {
-
-
-setInterval(() => {
-  callTime++
-  deadAirDuration++
-  updateHTML()
-},1000)
-appLoop();
-updateButton();
-
-
 
 
 
