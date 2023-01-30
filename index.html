@@ -20,35 +20,20 @@
       <p class="bottom-text" id="editableText2"></p>
       <p class="bottom-text" id="editableText3"></p>
     </div>
-    <div class="prevent-select" id="bigBox">Bonus Points: 0</div>
+    <div class="prevent-select" id="bigBox">
+      <div id="bigBoxText">Bonus Points: 0</div>
+      <div class="backdrop"></div>
+    </div>
     <div class="container-div prevent-select">
-      <div class="container">
-        <div class="box" id="box1"></div>
-        <div class="box" id="box2"></div>
-        <div class="box" id="box3">Say Spectrum</div>
-        <div class="box" id="box4"></div>
-        <div class="box" id="box5"></div>
-        <div class="box" id="box6"></div>
-        <div class="box" id="box7"></div>
-        <div class="box" id="box8">To Start</div>
-        <div class="box" id="box9"></div>
-        <div class="box" id="box10"></div>
+      <div class="container" id="boxHolder">
       </div>
     </div>
 
-
-
     <div class="armBox" id="ARM">
-      <p class="top-text">
-        ARM Statements to try.<br />
-      </p>
-
-      <p class="arm-text" id="armText1">I definitely understand the importance of resolving your [Issue] and I will do everything I can to help you get it done.
-      </p>
-      <p class="arm-text" id="armText2">I definitely understand the importance of resolving your [Issue] and I will do everything I can to help you get it done.
-      </p>
-      <p class="arm-text" id="armText3">I definitely understand the importance of resolving your [Issue] and I will do everything I can to help you get it done.
-      </p>
+      <p class="top-text" id="armTopText"></p>
+      <p class="arm-text" id="armText1"></p>
+      <p class="arm-text" id="armText2"></p>
+      <p class="arm-text" id="armText3"></p>
     </div>
 
     <div class="lowerContainer">
@@ -58,8 +43,8 @@
         <span class="optionText prevent-select">ARM Examples</span>
       </div>
       <div class="pointContainer">
-        <div class="point-div prevent-select" id="point-text"></div>
-        <div class="point-div prevent-select" id="pointTotal-text"></div>
+        <div class="point-div prevent-select" id="point-text">Points: 0</div>
+        <div class="point-div prevent-select" id="pointTotal-text">Total Points: 0</div>
       </div>
   <div class="buttons">
     <button class="prevent-select" id="rerollButton">Reroll Words</button>

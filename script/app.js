@@ -1,37 +1,35 @@
 let lock = false;
-let deadAirThreshold = 60; //seconds you can go without speaking before dead air reminder comes up
-let greenTimeout = 180; //used to automaticly reset board if there are long times between calls 
+let deadAirThreshold = 60; //60seconds you can go without speaking before dead air reminder comes up
+let greenTimeout = 180; //180used to automaticly reset board if there are long times between calls 
 let deadAirDuration = 0;
 let boxData = [];
-for (let i = 0; i < 10; i++) boxData.push({ text:"", active: true })
+let boxes = createBoxRows(2);
 
 //points
 let points = 0;
 let goodBoxes = 0;
 let badBoxes = 0;
 let bonus = 0;
-let goodPoint = 20
-let badPoint = 10
-let armPoint = 10
-let samPoint = 5
-let empathyPoint = 5
-let negativePoint = -2
+let goodPoint = 20;
+let badPoint = 10;
+let armPoint = 10;
+let samPoint = 5;
+let empathyPoint = 5;
+let negativePoint = -2;
 
-let countShortCalls = true //should i count short calls if they have a positive score
-let armTime=0
-let armWindow = 180 //time in seconds arm statements add points
-let armDuration = 10 //minimum time ARM reminder will display before fading away
+let countShortCalls = true; //should i count short calls if they have a positive score
+let armTime=0;
+let armWindow = 180; //time in seconds arm statements add points
+let armDuration = 10; //minimum time ARM reminder will display before fading away
 let isActive = true; //boolean state for the reroll button
-let callTime = 0 //clock that incriments every seconds. new rounds set this to 0 
-let minimumRound = 180 //how many seconds after a new call before the score counts.
-
-
-
-
-
-let firstCall = true
-let timerLock = false
-
+let callTime = 0; //clock that incriments every seconds. new rounds set this to 0 
+let minimumRound = 180; //how many seconds after a new call before the score counts.
+let firstCall = true;
+let timerLock = false;
+let lowestScore = badPoint*boxes
+let scoreDelta = goodPoint+badPoint
+let minimumGoodScore = Math.floor(lowestScore/scoreDelta)+1
+let lowestPositiveScore = (minimumGoodScore*scoreDelta)-lowestScore
 let ARMhelp = parseInt(getCookie("ARMhelp"))
 if(!Number.isInteger(ARMhelp)) ARMhelp = 1
 $("#toggle-switch-input").prop("checked", ARMhelp);
@@ -49,10 +47,10 @@ let infoVar =(
     Points will be added to the total each time the board resets 
     The points are only displayed to you in an effort to gamify the process and are not reported to anyone or used in any metrics.
     When accessing this game the site will ask to access your mic, Please allow it this access.
-    Each round you will be given 10 words to say during your call. The more words you are able to say the higher your score will be. 
+    Each round you will be given ${boxes} words to say during your call. The more words you are able to say the higher your score will be. 
     At the end of each round. You gain ${goodPoint} points for each word you manage to  use
-    and lose ${badPoint} points for each word you are unable to use. This means using at least 4 words will give you a positive score of ${(goodPoint*4) - (badPoint*6)} points
-    while using only 3 words will give you a score of ${(goodPoint*3) - (badPoint*7)} points.
+    and lose ${badPoint} points for each word you are unable to use. This means using at least ${minimumGoodScore} words will give you a score of ${(minimumGoodScore*scoreDelta)-lowestScore} points
+    while using only ${minimumGoodScore-1} words will give you a score of ${((minimumGoodScore-1)*scoreDelta)-lowestScore} points.
     The site also listens for dead air from your side. This dead air is not factored into the score.
     However, when detected it will prompt you with helpful phrases to fill this gap.<br>
     You are given 1 Reroll per round incase you are given a list of words you aren't comfortable with using.
@@ -64,8 +62,8 @@ let infoVar =(
 )
 
 $('#info').html(infoVar)
-
 recognition.start();
+sayToStart()
 
 $(document).ready(function () {
   arrayRandom = getUniqueRandom({ numbers: 3, maxNumber: phrases.length });
@@ -73,8 +71,6 @@ $(document).ready(function () {
     $("#editableText" + (i + 1)).text(phrases[arrayRandom[i]]);
   }
   fetchPositiveWord();
-  $("#top-div").fadeOut(0);
-  $(".armBox").fadeOut(0);
 });
 
 $("#toggle-switch-input").click(function() {
@@ -96,6 +92,7 @@ $("#rerollButton").click(function () {
 });
 
 $("#newRoundButton").click(function () {resetRound();});
+
 
 setInterval(()=>{updateTick()},1000)
 setInterval(()=>{appLoop()},1)

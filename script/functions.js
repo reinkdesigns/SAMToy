@@ -20,7 +20,7 @@ recognition.onend = ()=>{recognition.start()};
       console.log("log: " + userPhrase);
       checkWord({ list: userPhrase.toLowerCase() });
       if (userPhrase) deadAirDuration = 0;
-      if (callTime>armDuration) setTimeout(() => {
+      if (callTime>armDuration && !firstCall) setTimeout(() => {
         $(".armBox").fadeOut(2000)
       }, 4000);
     }, 1000); // Log result after 1 second
@@ -46,41 +46,38 @@ recognition.onend = ()=>{recognition.start()};
   }
 
   function checkDeadAir(){
-    if (deadAirDuration < deadAirThreshold) {
-      if (lock) {
-        $("#top-div").fadeOut(4000, function () {});
-        lock = false;
+    if (deadAirDuration === deadAirThreshold){
+       arrayRandom = getUniqueRandom({ numbers: 3, maxNumber: phrases.length });
+       for (let i = 0; i < arrayRandom.length; i++) $("#editableText" + (i + 1)).text(phrases[arrayRandom[i]]);
       }
-    }
+    if (deadAirDuration > deadAirThreshold && !firstCall) $("#top-div").fadeIn();
+    if (deadAirDuration < deadAirThreshold) $("#top-div").fadeOut(4000);
     if (deadAirDuration > deadAirThreshold+greenTimeout && !firstCall) { //if you haven't spoken in this long, you arent on a call. this will account for losing points when getting a call during green time.
       passScore()
-      firstCall = true
-      if (lock) {
-        $("#top-div").fadeOut(0, function () {});
-        lock = false;
-      }
+      sayToStart()
     }
   }
   
+  function sayToStart(){
+    firstCall = true
+    $(".armBox").fadeIn(0)
+    $("#top-div").fadeOut(0);
+    $('#armTopText').text("Say Spectrum To Start")
+    for (let i = 1; i <= 3; i++) $("#armText" + (i)).html("");
+    boxData = [];
+    for (let i = 0; i < boxes; i++) boxData.push({ text:"", active: true });
+  }
+
   function appLoop() {
       // requestAnimationFrame(appLoop);
       checkDeadAir()
 
       armTime = (armWindow-callTime)
       if(armTime<0 || firstCall) armTime = 0
-
-      if (deadAirDuration > deadAirThreshold && !lock && !firstCall) {
-        arrayRandom = getUniqueRandom({ numbers: 3, maxNumber: phrases.length });
-        for (let i = 0; i < arrayRandom.length; i++) {
-          $("#editableText" + (i + 1)).text(phrases[arrayRandom[i]]);
-        }
-        $("#top-div").fadeIn();
-        lock = true;
-      }
       goodBoxes = 0;
       badBoxes = 0;
 
-      for (var i = 0; i < 10; i++) {
+      for (var i = 0; i < boxes; i++) {
       if(firstCall) continue
       if (boxData[i].active) badBoxes++;
       if (!boxData[i].active) goodBoxes++;
@@ -119,10 +116,10 @@ recognition.onend = ()=>{recognition.start()};
         resetRound(purgeScore);
       }
     if (list.toLowerCase().includes("what i thought i would do is pretend to be one of those deaf mutes")) {
-      totalPoints = 0
-      firstCall = true
-      setCookie({cname:"totalPoints", cvalue:0})
       //cheat code to clear totalPoints. not important, can be removed, used for debugging.
+      totalPoints = 0
+      sayToStart()
+      setCookie({cname:"totalPoints", cvalue:0})
     }
 
     if(firstCall) return
@@ -134,7 +131,7 @@ recognition.onend = ()=>{recognition.start()};
     
     getMatchWord({array:positiveWords,list:list,matchWord:matchWord,points:samPoint,deleteMatch:false})
 
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < boxes-1; i++) {
       for(let j=0;j<matchWord.length;j++){
       if (matchWord[j].toLowerCase() == boxData[i].text.toLowerCase()) {
         boxData[i].active = false;
@@ -143,18 +140,25 @@ recognition.onend = ()=>{recognition.start()};
     }
     }
     if (list.toLowerCase().includes("email")) {
-      boxData[9].active = false;
-      console.log("Positive Word Match: " + boxData[9].text);
+      boxData[boxes-1].active = false;
+      console.log("Positive Word Match: " + boxData[boxes-1].text);
     }
     
     if (bonus<0) bonus = 0
-    if(bonus>oldBonus) pulseColor({div:"#bigBox"})
-    if(bonus<oldBonus) pulseColor({div:"#bigBox",color:"pulse-red"})
+    if(bonus>oldBonus) pulseBackdrop({color:"#12e712"})
+    if(bonus<oldBonus) pulseBackdrop({color:"#e63131"})
   }
 
-  function pulseColor({div=0,color="pulse-green"}){
-    $(div).addClass(color);
-    setTimeout(function() {$(div).removeClass(color);}, 1000);
+  function pulseColor({div=0}){
+    $(div).addClass("pulse-green");
+    setTimeout(function() {$(div).removeClass("pulse-green");}, 1000);
+  }
+
+  function pulseBackdrop({color="#fff"}){
+    $('.backdrop').css({opacity : 0});
+    $('.backdrop').css({ backgroundColor: color });
+    $(".backdrop").animate({opacity : 1});
+    setTimeout(function() {$(".backdrop").animate({opacity : 0})}, 500);
   }
 
   function passScore(){
@@ -162,10 +166,11 @@ recognition.onend = ()=>{recognition.start()};
       totalPoints += bonus;
       setCookie({cname:"totalPoints", cvalue:totalPoints})
       console.log(`New Total: ${getCookie("totalPoints")}`)
-      pulseColor({div:"#bigBox",color:"pulse-green"})
+      pulseBackdrop({color:"#12e712"})
   }
 
   function resetRound(purgeScore=0) {
+    $('#armTopText').html("ARM Statements to try.<br />")
     fetchArm()
     if(!purgeScore) passScore()
     deadAirDuration = 0
@@ -179,26 +184,23 @@ recognition.onend = ()=>{recognition.start()};
   }
 
   function fetchPositiveWord() {
-    if(firstCall){
-      return
-    }
+    if(firstCall) return
+    
     positiveRound = getUniqueRandom({
-      numbers: 9,
+      numbers: boxes,
       maxNumber: positiveWords.length,
     });
     boxData = [];
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < boxes; i++) {
       let addWord = positiveWords[positiveRound[i]][0];
+      if(i==boxes-1) addWord = "Email"
       $("#box" + (i + 1)).text(addWord);
-      pulseColor({div:"#box" + (i + 1),color:"pulse-green"})
+      pulseColor({div:"#box" + (i + 1)})
       boxData.push({ text: addWord, active: true });
     }
-    boxData.push({ text: "Email", active: true });
-    $("#box10").text("E-mail");
-    pulseColor({div:"#box10",color:"pulse-green"})
+    $("#box"+boxes).text("E-mail");
   }
-
-    // console.log(getCookie("totalPoints"))
+  // console.log(getCookie("totalPoints"))
   function setCookie({cname=0, cvalue=0, path="/"}) {
     var expires = "";
     var date = new Date();
@@ -232,10 +234,12 @@ recognition.onend = ()=>{recognition.start()};
         callTime++ //this function isnt being called while not in focus
         deadAirDuration++
         alertFirstCall()
-        $("#bigBox").text(`Bonus Points:${bonus} Time left: ${armTime}`)
+        let bonusText = `Bonus Points: ${bonus}`
+        if(armTime) bonusText += `<br>ARM Statement Time Remaining: ${armTime}`  
+        $("#bigBoxText").html(bonusText)
         $("#point-text").text("Points: " + points);
         $("#pointTotal-text").text("Total Points: " + totalPoints);
-        for (var i = 0; i < 10; i++) { //updates box color
+        for (var i = 0; i < boxes; i++) { //updates box color
           $("#box" + (i + 1)).css({"background-color": "#64c564",color: "white",});
           if (boxData[i].active) $("#box" + (i + 1)).css({"background-color": "white", color: "black" });
         }
@@ -243,21 +247,22 @@ recognition.onend = ()=>{recognition.start()};
     
   function alertFirstCall() {
     if(firstCall){
-      for(let i=1;i<11;i++){
+      for(let i=1;i<=boxes;i++){
         $('#box'+i).text("");
       }
-      $('#box3').text("Say Spectrum");
-      $('#box8').text("To Start");
     }
   }
 
   function fetchArm() {
-    if(!ARMhelp) return
-  arrayRandom = getUniqueRandom({ numbers: 3, maxNumber: armDisplay.length });
-  for (let i = 0; i < arrayRandom.length; i++) {
-    $("#armText" + (i + 1)).text(armDisplay[arrayRandom[i]]);
-  }
-  $(".armBox").fadeIn(0);
+    if(!ARMhelp) {
+      $(".armBox").fadeOut(0)
+      return
+    }
+    arrayRandom = getUniqueRandom({ numbers: 3, maxNumber: armDisplay.length });
+    for (let i = 0; i < arrayRandom.length; i++) {
+      $("#armText" + (i + 1)).text(armDisplay[arrayRandom[i]]);
+    }
+    $(".armBox").fadeIn(0);
   }
 
   function minScorTime(){
@@ -270,5 +275,15 @@ recognition.onend = ()=>{recognition.start()};
     return timeVar
   }
 
-
+  function createBoxRows(rowsOfFive){
+    rowsOfFive *=5
+    if (rowsOfFive>positiveWords.length) rowsOfFive = positiveWords.length;
+    rowsOfFive = rowsOfFive-(rowsOfFive%5)
+    let boxMaker =""
+    for (let i=0;i<rowsOfFive;i++) boxMaker += `<div class="box" id="box${i+1}"></div>`
+    $('#boxHolder').html(boxMaker)
+    boxData = [];
+    for (let i = 0; i < rowsOfFive+1; i++) boxData.push({ text:"", active: true });
+    return rowsOfFive 
+    }
 

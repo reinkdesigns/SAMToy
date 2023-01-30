@@ -16,6 +16,45 @@ let armStatment = [
   ["Investigate",],
 ]
 
+
+let TEMPphrases = [  
+  ["I have a lot of experience with [service issue], let me see if I can resolve that issue.",],
+  ["I'm sorry to hear about your network [service issue]. Let me take a look and see what I can do.",],
+  ["I certainly understand the inconvenience of [service issue]. Our support team is here to help.",],
+  ["I apologize for the frustration you may be experiencing with your [service issue]. I'll do my best to resolve it.",],
+  ["Our goal is to provide you with reliable service, let me take care of your [service issue].",],
+  ["I appreciate your patience as we work to resolve your [service issue].",],
+  ["I understand the importance of a functioning [service]. Let me assist you in resolving your [service issue].",],
+  ["I'm here to help with your [service issue]. Let's get your services back to normal quickly.",],
+  ["We believe in providing exceptional service. Let me investigate your [service issue].",],
+  
+  ["I'm here to assist you in resolving your network [service issue]. I'm definitely up for the challenge!",],
+  ["I'm sorry that happened. Let's get your network [service issue] fixed and back to normal as soon as possible.",],
+  ["We are a team of experts, I'm sure we can resolve your network [service issue] quickly and efficiently.",],
+  ["Sorry to hear about your [service issue], let me see what I can do to help.",],
+  ["I can understand how important it is to have reliable network services. Let's resolve your [service issue] together.",],
+  ["I'm an empathetic technician and I will do my best to resolve your network [service issue] in a timely manner.",],
+  ["I'm here to assist with your network [service issue] and provide a positive resolution.",],
+  ["We understand how important it is to have network services running smoothly. Let me help resolve your [service issue].",],
+  ["I'm confident that we can resolve your network [service issue]. I'll do everything I can to help.",],
+  ["We're here to provide an outstanding network repair experience. Let's resolve your [service issue] together.",],
+  ["Let's work together to resolve your network [service issue]. I'm here to assist you in any way I can.",],
+
+  ["I appreciate the opportunity to assist with resolving the [service issue] you're facing.",],
+  ["",],
+  ["",],
+  ["",],
+  ["",],
+  ["",],
+  ["",],
+  ["",],
+  ["",],
+  ["",],
+  ["",],
+  ["",],
+  ["",],
+]
+
 let armDisplay = [
   ["I am more than happy to help you with any [Issue] you may be experiencing.",],
   ["I am more than happy to assist you in resolving any [Issue] you may be facing.",],
@@ -45,22 +84,22 @@ let negativeWords = [
 ];
 
 let empathyWords = [ //if you see words here with letters missing, that is intentions. It is to account for tences
-    ["Apologize",],
-    ["Approachable",],
-    ["compassion",],
-    ["Empath",],
-    ["Encouraging",],
-    ["Frustrat",], 
-    ["Inconvenienc",],
-    ["Our Support",],
-    ["Patien",],
-    ["reliabl",],
-    ["Sorry to hear",],
-    ["Sorry you're having",],
-    ["Sorry that happened",],
-    ["our services",],
-    ["sympath",],
-    ["Understanding",],
+  ["Apologize",],
+  ["Approachable",],
+  ["compassion",],
+  ["Empath",],
+  ["Encouraging",],
+  ["Frustrat",], 
+  ["Inconvenienc",],
+  ["Our Support",],
+  ["Patien",],
+  ["reliabl",],
+  ["Sorry to hear",],
+  ["Sorry you're having",],
+  ["Sorry that happened",],
+  ["our services",],
+  ["sympath",],
+  ["Understanding",],
 ]
 
 let positiveWords = [ // [0] is the base word. [1...] are alt words of the same sentiment i.e easy vs easily will be the same word
@@ -101,7 +140,7 @@ let positiveWords = [ // [0] is the base word. [1...] are alt words of the same 
   ["Marvelous",],
   ["Memorable",],
   ["Outstanding",],
-  ["Opertunity",],
+  ["Opportunity",],
   ["Positive",],
   ["Quickly",],
   ["Recommend",],
