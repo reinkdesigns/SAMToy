@@ -57,7 +57,7 @@ let infoVar =(
     You can also get bonus points if you are using ARM centric phrases(${armPoint} Points), using Empathy words (${empathyPoint} Points), or using SAM buzz words that are not the current rounds goal (${samPoint} points). 
     You will also lose Bonus points for each negative word you use (${negativePoint} Points). Don't worry, bonus points can not go below 0.
     ARM phrases only score points within the 1st ${armWindow} seconds of the call.<br>
-    The voice recognition software is not 100% any may occasionally not catch some words, or misunderstand you.
+    This voice recognition software is not 100% any may occasionally not catch some words, or misunderstand you.
     <br><br>Good luck and have fun and say Spectrum to start!`
 )
 
