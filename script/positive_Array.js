@@ -33,7 +33,6 @@ let TEMPphrases = [
   ["We are a team of experts, I'm sure we can resolve your network [service issue] quickly and efficiently.",],
   ["Sorry to hear about your [service issue], let me see what I can do to help.",],
   ["I can understand how important it is to have reliable network services. Let's resolve your [service issue] together.",],
-  ["I'm an empathetic technician and I will do my best to resolve your network [service issue] in a timely manner.",],
   ["I'm here to assist with your network [service issue] and provide a positive resolution.",],
   ["We understand how important it is to have network services running smoothly. Let me help resolve your [service issue].",],
   ["I'm confident that we can resolve your network [service issue]. I'll do everything I can to help.",],
@@ -72,14 +71,9 @@ let armDisplay = [
 ]
 
 let negativeWords = [ 
-  ["i can't",],
-  ["we can't",],
-  ["i don't",],
-  ["we don't",],
-  ["are unable",],
-  ["am unable",],
-  ["i'm unable",],
-  ["not able",],
+  ["i can't","we can't",],
+  ["i don't","we don't",],
+  ["are unable","am unable","i'm unable","not able",],
   ["unfortunately",],
 ];
 
@@ -94,9 +88,7 @@ let empathyWords = [ //if you see words here with letters missing, that is inten
   ["Our Support",],
   ["Patien",],
   ["reliabl",],
-  ["Sorry to hear",],
-  ["Sorry you're having",],
-  ["Sorry that happened",],
+  ["Sorry to hear","Sorry you're having","Sorry that happened",],
   ["our services",],
   ["sympath",],
   ["Understanding",],
@@ -127,7 +119,6 @@ let positiveWords = [ // [0] is the base word. [1...] are alt words of the same 
   ["Fabulous",],
   ["Fantastic",],
   ["Fascinating","fascinat"],
-  ["Fair",],
   ["Favorite",],
   ["Familiar",],
   ["Friendly",],
@@ -151,7 +142,7 @@ let positiveWords = [ // [0] is the base word. [1...] are alt words of the same 
   ["Splendid",],
   ["Superb",],
   ["Terrific",],
-  ["Very Good",],
+  ["Very Good","Really Good"],//listed a secondary positive word for "Good" 
 ];
 
 let phrases = [
