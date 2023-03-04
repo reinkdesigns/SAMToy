@@ -136,12 +136,13 @@ let positiveWords = [ // [0] is the base word. [1...] are alt words of the same 
   ["Quickly",],
   ["Recommend",],
   ["Renowend",],
-  ["Resolve",],
+  ["Resolve","Resolution"],
   ["Sensational",],
   ["Skillful",],
   ["Splendid",],
   ["Superb",],
   ["Terrific",],
+  ["Thank You",],
   ["Very Good","Really Good"],//listed a secondary positive word for "Good" 
 ];
 
@@ -182,6 +183,15 @@ let phrases = [
   ["Fantastic, we'll get that issue resolved for you.",],
   ["We're familiar with all types of technical issues, I'll be happy to help you.",],
 ];
+
+
+//this is a list of words that should always be displayed such as Email, almost every call can benefit from an EHH
+//the 1st index in each list will be the displayed word
+//the items here will be added to boxes in reverse order starting with index 0,0 being added to teh last box
+let defaultWords =[
+  ["E-Mail","Email","Text Message"],
+  ["Recap",],
+]
 
 let ignoreWords =[ //list of words to ignore a round reset if said in the same line as the word spectrum
   ".com",

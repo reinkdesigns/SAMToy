@@ -139,9 +139,15 @@ recognition.onend = ()=>{recognition.start()};
       }
     }
     }
-    if (list.toLowerCase().includes("email")) {
-      boxData[boxes-1].active = false;
-      console.log("Positive Word Match: " + boxData[boxes-1].text);
+
+    for (let i=0; i<defaultWords.length; i++){
+      for (let j=0; j<defaultWords[i].length; j++){
+      if (list.toLowerCase().includes(defaultWords[i][j].toLowerCase())) {
+        boxData[boxes-(i+1)].active = false;
+        console.log("Positive Word Match: " + boxData[boxes-(i+1)].text);
+        }
+      }
+
     }
     
     if (bonus<0) bonus = 0
@@ -193,12 +199,18 @@ recognition.onend = ()=>{recognition.start()};
     boxData = [];
     for (let i = 0; i < boxes; i++) {
       let addWord = positiveWords[positiveRound[i]][0];
-      if(i==boxes-1) addWord = "Email"
+
+      for(let j=0; j<defaultWords.length; j++){
+        if(i==boxes-(j+1)) addWord = defaultWords[j][0]
+      }
       $("#box" + (i + 1)).text(addWord);
       pulseColor({div:"#box" + (i + 1)})
       boxData.push({ text: addWord, active: true });
     }
-    $("#box"+boxes).text("E-mail");
+
+    for(let i=0; i<defaultWords.length; i++){
+    $("#box"+boxes-i).text(defaultWords[i][0]);
+    }
   }
   // console.log(getCookie("totalPoints"))
   function setCookie({cname=0, cvalue=0, path="/"}) {
