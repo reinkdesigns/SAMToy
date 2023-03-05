@@ -3,7 +3,7 @@ let deadAirThreshold = 60; //60seconds you can go without speaking before dead a
 let greenTimeout = 180; //180used to automaticly reset board if there are long times between calls 
 let deadAirDuration = 0;
 let boxData = [];
-let boxes = createBoxRows(3);
+let boxes = createBoxRows(2);
 
 //points
 let points = 0;
