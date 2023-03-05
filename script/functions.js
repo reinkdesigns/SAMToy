@@ -299,3 +299,9 @@ recognition.onend = ()=>{recognition.start()};
     return rowsOfFive 
     }
 
+    function setPoints({points=15}){ //sets the points for each box good and bad
+      goodPoint = Math.max(points,15)
+      badPoint = Math.min(Math.ceil(goodPoint/5/2)*5,goodPoint-5)
+      badPoint = Math.max(0,badPoint)
+    }
+    
