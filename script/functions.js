@@ -305,3 +305,40 @@ recognition.onend = ()=>{recognition.start()};
       badPoint = Math.max(0,badPoint)
     }
     
+    function setVarCookie({cookieName="",defaultValue=0}){
+      let holdVar = parseInt(getCookie(cookieName))
+      if(!Number.isInteger(holdVar)) holdVar = defaultValue
+      return holdVar
+    }
+
+    
+function refreshInfo(){
+  lowestScore = badPoint*boxes
+  scoreDelta = goodPoint+badPoint
+  minimumGoodScore = Math.floor(lowestScore/scoreDelta)+1
+  lowestPositiveScore = (minimumGoodScore*scoreDelta)-lowestScore
+  infoVar =(
+      `The board will automatically reset after saying the word "Spectrum" (as in
+      "Thank you for calling spectrum internet support.").<br>
+      Or clicking the "New Round" button. To help with short calls, I won't score any round that lasts less than ${minScorTime()}.
+      There are a few phrases that include the word "Spectrum" such as "Spectrum Email" I will do my best not to end the round early if I hear these, but I am unable to account 
+      for all of these without making it to difficult to natrualy start a new round<br><br>
+      Points will be added to the total each time the board resets 
+      The points are only displayed to you in an effort to gamify the process and are not reported to anyone or used in any metrics.
+      When accessing this game the site will ask to access your mic, Please allow it this access.
+      Each round you will be given ${boxes} words to say during your call. The more words you are able to say the higher your score will be. 
+      At the end of each round. You gain ${goodPoint} points for each word you manage to  use
+      and lose ${badPoint} points for each word you are unable to use. This means using at least ${minimumGoodScore} words will give you a score of ${(minimumGoodScore*scoreDelta)-lowestScore} points
+      while using only ${minimumGoodScore-1} words will give you a score of ${((minimumGoodScore-1)*scoreDelta)-lowestScore} points.
+      The site also listens for dead air from your side. This dead air is not factored into the score.
+      However, when detected it will prompt you with helpful phrases to fill this gap.<br>
+      You are given 1 Reroll per round incase you are given a list of words you aren't comfortable with using.
+      You can also get bonus points if you are using ARM centric phrases(${armPoint} Points), using Empathy words (${empathyPoint} Points), or using SAM buzz words that are not the current rounds goal (${samPoint} points). 
+      You will also lose Bonus points for each negative word you use (${negativePoint} Points). Don't worry, bonus points can not go below 0.
+      ARM phrases only score points within the 1st ${armWindow} seconds of the call.<br>
+      This voice recognition software is not 100% any may occasionally not catch some words, or misunderstand you.
+      <br><br>Good luck and have fun and say Spectrum to start!`
+  )
+      }
+  
+  

@@ -24,9 +24,9 @@
       <div id="bigBoxText">Bonus Points: 0</div>
       <div class="backdrop"></div>
     </div>
+
     <div class="container-div prevent-select">
-      <div class="container" id="boxHolder">
-      </div>
+      <div class="container" id="boxHolder"></div>
     </div>
 
     <div class="armBox" id="ARM">
@@ -37,22 +37,52 @@
     </div>
 
     <div class="lowerContainer">
-      <div class="toggle-switch">
-        <input type="checkbox" id="toggle-switch-input">
-        <label for="toggle-switch-input"></label>
-        <span class="optionText prevent-select">ARM Examples</span>
-      </div>
-      <div class="pointContainer">
-        <div class="point-div prevent-select" id="point-text">Points: 0</div>
-        <div class="point-div prevent-select" id="pointTotal-text">Total Points: 0</div>
-      </div>
-  <div class="buttons">
-    <button class="prevent-select" id="rerollButton">Reroll Words</button>
-    <button class="prevent-select" id="newRoundButton">New Round</button>
-  </div>
-  <p id="info"></p>
-</div>
 
+      <div class="menu-overlay"></div>
+      <div class="menu-container">
+        <h2>Settings</h2>
+        <div class="slider-container">
+          <span id="slideRow-value"></span>
+          <input type="range" id="slideRow" min="2" max="5" step="1" value="2" />
+
+          <span id="slidePoint-value"></span>
+          <input type="range" id="slidePoint" min="20" max="50" step="5" value="25" />
+          
+          <span id="slideSam-value"></span>
+          <input type="range" id="slideSam" min="0" max="50" step="5" value="5" />
+
+          <span id="slideArm-value"></span>
+          <input type="range" id="slideArm" min="0" max="50" step="5" value="10" />
+
+          <span id="slideEmpathy-value"></span>
+          <input type="range" id="slideEmpathy" min="0" max="50" step="5" value="5" />
+
+          <span id="slideNegative-value"></span>
+          <input type="range" id="slideNegative" min="-10" max="0" step="1" value="-2" />
+
+
+        </div>
+        <button id="ok-button">OK</button>
+      </div>
+
+      <div class="buttons">
+        <div class="toggle-switch">
+          <input type="checkbox" id="toggle-switch-input" />
+          <label for="toggle-switch-input"></label>
+          <span class="optionText prevent-select">ARM Examples</span>
+        </div>
+        <button class="prevent-select" id="rerollButton">Reroll Words</button>
+        <button class="prevent-select" id="newRoundButton">New Round</button>
+        <button class="prevent-select" id="gearSetting">Settings</button>
+        <div class="pointContainer">
+          <div class="point-div prevent-select" id="point-text">Points: 0</div>
+          <div class="point-div prevent-select" id="pointTotal-text">
+            Total Points: 0
+          </div>
+        </div>
+      </div>
+      <p id="info"></p>
+    </div>
 
     <script src="script/functions.js"></script>
     <script src="script/positive_Array.js"></script>

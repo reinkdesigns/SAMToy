@@ -135,9 +135,8 @@ body {
   position: relative;
   width: 3.75rem;
   height: 2.125rem;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  margin-left: 5rem;
+  margin: auto;
+  transform: translate(-100%,-150%);
 }
 
 .toggle-switch input[type="checkbox"] {
@@ -187,7 +186,23 @@ body {
   white-space: nowrap;
 }
 
+
+
+
+
 /*lower */
+
+.buttons {
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  justify-content: center;
+  align-items: center;
+  /* transform: translateY(50%); */
+  margin-top: 5rem;
+  margin-bottom: -1rem;
+}
+
 .lowerContainer {
   flex-wrap: wrap;
   justify-content: center;
@@ -202,17 +217,11 @@ body {
 }
 
 .pointContainer{
-  margin: -2rem 0 3rem 0;
+  grid-row: 1;
+  grid-column: 2;
 }
 
-.buttons {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  justify-content: center;
-  align-items: center;
-}
-
-#rerollButton, #newRoundButton {
+#rerollButton, #newRoundButton, #gearSetting, #ok-button{
   width: auto;
   background-color: #0078D7;
   color: rgb(255, 255, 255);
@@ -221,6 +230,27 @@ body {
   padding: .75rem;
   font-size: 1.2rem;
   margin: auto;
+}
+#ok-button{
+  justify-content: center;
+  padding: .5rem 2rem;
+}
+
+#rerollButton{
+  grid-row: 2;
+  grid-column: 1;
+}
+
+#newRoundButton{
+  grid-row: 2;
+  grid-column: 3;
+
+}
+
+#gearSetting{
+  transform: translateY(-100%);
+  grid-row: 1;
+  grid-column: 3;
 }
 
 #info{
@@ -231,6 +261,47 @@ body {
   justify-content: center;
   padding: 4rem 4rem 3rem 4rem;
 }
+
+
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 98;
+}
+
+.menu-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  background-color: white;
+  padding: 20px;
+  text-align: center;
+  display: none;
+  z-index: 98;
+  border-radius: 10%;
+  border: .2rem solid #0078D7;
+}
+
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+label {
+  margin-bottom: 5px;
+}
+
+
 
 
 
@@ -263,5 +334,3 @@ body {
   width: 1px;
   background-color: #000;
 }
-
-
