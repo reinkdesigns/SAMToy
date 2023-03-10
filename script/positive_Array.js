@@ -154,13 +154,6 @@ let positiveWords = [ // [0] is the base word. [1...] are alt words of the same 
 
 
 
-let topXArray=[]
-for(let i = 0; i<positiveWords.length; i++){
-  const obj = {};
-  obj[positiveWords[i][0]] = 0;
-  topXArray.push(obj)
-}
-
 
 let phrases = [
   ["I'm here to help you with this issue. Let me see if I can find a solution.",],

@@ -354,13 +354,20 @@ recognition.onend = ()=>{recognition.start()};
     function incrementObject(word, arrayToIncrement, cookieName) {
       for (let i = 0; i < arrayToIncrement.length; i++) {
         const obj = arrayToIncrement[i];
-        const key = Object.keys(obj)[0]; // Assuming each object has only one key
+        const key = Object.keys(obj)[0]; 
         if (key.toLowerCase() === word.toLowerCase()) {
           obj[key] += 1;
-          document.cookie = `${cookieName} = ${JSON.stringify(arrayToIncrement)};path=/`;
-          break;
+          console.log(word)
+          document.cookie = `${cookieName}=${JSON.stringify(arrayToIncrement)};path=/`
+          // console.log(JSON.stringify(getCookie("topXWords")))
+          return;
         }
       }
+      // If the word is not already in the array, add it with a value of 1
+      arrayToIncrement.push({ [word]: 1 });
+      console.log(word);
+      document.cookie = `${cookieName}=${JSON.stringify(arrayToIncrement)};path=/`
+      // console.log(JSON.stringify(getCookie("topXWords")))
     }
 
 

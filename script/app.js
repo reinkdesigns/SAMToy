@@ -38,7 +38,7 @@ $('#slideEmpathy').val(empathyPoint)
 let negativePoint = setVarCookie({cookieName:"negativePoint",defaultValue:-2})
 $('#slideNegative').val(negativePoint)
 
-
+let topXArray=[]
 let countShortCalls = true; //should i count short calls if they have a positive score
 let armTime=0;
 let armWindow = 180; //time in seconds arm statements add points
@@ -58,6 +58,7 @@ if(getCookie("topXWords")){
   topXArray = JSON.parse(getCookie("topXWords"))
 }else{
   console.log("not found")
+  console.log(JSON.stringify(getCookie("topXWords")))
 }
 
 
@@ -71,7 +72,7 @@ incrementObject("Awesome", topXArray, "topXWords")
 incrementObject("Definitely", topXArray, "topXWords")
 incrementObject("Delight", topXArray, "topXWords")
 incrementObject("Delight", topXArray, "topXWords")
-// console.log(JSON.stringify(getCookie("topXWords")))
+console.log(JSON.stringify(getCookie("topXWords")))
 
 
 
