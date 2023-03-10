@@ -94,6 +94,9 @@ let empathyWords = [ //if you see words here with letters missing, that is inten
   ["Understanding",],
 ]
 
+
+
+
 let positiveWords = [ // [0] is the base word. [1...] are alt words of the same sentiment i.e easy vs easily will be the same word
   ["Absolutely",],
   ["Amazing",],
@@ -146,6 +149,19 @@ let positiveWords = [ // [0] is the base word. [1...] are alt words of the same 
   ["Very Good","Really Good"],//listed a secondary positive word for "Good" 
 ];
 
+
+
+
+
+
+let topXArray=[]
+for(let i = 0; i<positiveWords.length; i++){
+  const obj = {};
+  obj[positiveWords[i][0]] = 0;
+  topXArray.push(obj)
+}
+
+
 let phrases = [
   ["I'm here to help you with this issue. Let me see if I can find a solution.",],
   ["I'm going to take a closer look and see if I can identify the problem you're experiencing.",],
@@ -191,6 +207,7 @@ let phrases = [
 let defaultWords =[
   ["E-Mail","Email","Text Message"],
   ["Recap",],
+  ["\"Empathy\" \"Phrase\"", "Apologize", "Approachable", "compassion", "Empath", "Encouraging", "Frustrat", "Inconvenienc", "Our Support", "Patien", "reliabl", "Sorry to hear", "Sorry you're having", "Sorry that happened", "our services", "sympath", "Understanding",],
 ]
 
 let ignoreWords =[ //list of words to ignore a round reset if said in the same line as the word spectrum

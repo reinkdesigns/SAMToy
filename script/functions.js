@@ -96,7 +96,10 @@ recognition.onend = ()=>{recognition.start()};
           //switch case
           if(points == negativePoint) console.log(`Negative Word Match: ${array[j][0]}`)
           // if(points = empathyWords) console.log(`Empathy Word Match: ${array[j][0]}`)
-          if(points == samPoint) console.log(`Positive Word Match: ${array[j][0]}`)
+          if(points == samPoint){
+            console.log(`Positive Word Match: ${array[j][0]}`)
+            incrementObject(array[j][0], topXArray, "topXWords")
+          }
           if(points == armPoint) console.log(`ARM Phrase Match: ${array[j][0]}`)
           if(deleteMatch) matchWord=[]
         }
@@ -115,6 +118,12 @@ recognition.onend = ()=>{recognition.start()};
         if((points + bonus)>0 && countShortCalls) purgeScore = 0 //if teh agent managed to get a positive score on a 2 minute call, this will makesure that score is counted. otherwise we dont want to punish the user for a call thats too short to grade
         resetRound(purgeScore);
       }
+
+      if (list.toLowerCase().includes("show me the top array")) {
+        console.log(topXArray)
+      }
+
+
     if (list.toLowerCase().includes("what i thought i would do is pretend to be one of those deaf mutes")) {
       //cheat code to clear totalPoints. not important, can be removed, used for debugging.
       totalPoints = 0
@@ -145,6 +154,7 @@ recognition.onend = ()=>{recognition.start()};
       if (list.toLowerCase().includes(defaultWords[i][j].toLowerCase())) {
         boxData[boxes-(i+1)].active = false;
         console.log("Positive Word Match: " + boxData[boxes-(i+1)].text);
+        incrementObject(boxData[boxes-(i+1)].text, topXArray, "topXWords")
         }
       }
 
@@ -192,6 +202,9 @@ recognition.onend = ()=>{recognition.start()};
   function fetchPositiveWord() {
     if(firstCall) return
     
+    //start of assign words
+    let continueLoop = true
+    for(let itteration=0;continueLoop;itteration++){
     positiveRound = getUniqueRandom({
       numbers: boxes,
       maxNumber: positiveWords.length,
@@ -207,6 +220,12 @@ recognition.onend = ()=>{recognition.start()};
       pulseColor({div:"#box" + (i + 1)})
       boxData.push({ text: addWord, active: true });
     }
+
+    continueLoop = compairTopX({arr:boxData})
+  }
+
+    //end of get words
+
 
     for(let i=0; i<defaultWords.length; i++){
     $("#box"+boxes-i).text(defaultWords[i][0]);
@@ -225,6 +244,28 @@ recognition.onend = ()=>{recognition.start()};
     document.cookie = `${cname}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
   }
 
+
+  function compairTopX({arr={}}){
+
+
+    let trueFalse = false
+
+    topXArray.sort(function(a, b) {
+      return Object.values(b)[0] - Object.values(a)[0];
+    });
+    console.log(topXArray)
+    let topX = topXArray.slice(0, TopXUsedWords).map(obj => Object.keys(obj)[0]);
+    arr.forEach(obj => {
+      if (topX.includes(obj.text)) {
+        trueFalse = true
+      }
+    });
+    if (trueFalse) return true
+    return false
+  }
+
+
+
   function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -240,7 +281,6 @@ recognition.onend = ()=>{recognition.start()};
     }
     return "";
   }
-
   function updateTick() {
     //updates HTML the display and timer variables every seconds
         callTime++ //this function isnt being called while not in focus
@@ -311,7 +351,19 @@ recognition.onend = ()=>{recognition.start()};
       return holdVar
     }
 
-    
+    function incrementObject(word, arrayToIncrement, cookieName) {
+      for (let i = 0; i < arrayToIncrement.length; i++) {
+        const obj = arrayToIncrement[i];
+        const key = Object.keys(obj)[0]; // Assuming each object has only one key
+        if (key.toLowerCase() === word.toLowerCase()) {
+          obj[key] += 1;
+          document.cookie = `${cookieName} = ${JSON.stringify(arrayToIncrement)};path=/`;
+          break;
+        }
+      }
+    }
+
+
 function refreshInfo(){
   lowestScore = badPoint*boxes
   scoreDelta = goodPoint+badPoint

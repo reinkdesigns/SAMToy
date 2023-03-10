@@ -3,7 +3,8 @@ let deadAirThreshold = 60; //60seconds you can go without speaking before dead a
 let greenTimeout = 180; //180used to automaticly reset board if there are long times between calls 
 let deadAirDuration = 0;
 let boxData = [];
-$('#slideRow').attr({'min':2, 'max':positiveWords.length/5});
+let TopXUsedWords = 5
+$('#slideRow').attr({'min':2, 'max':Math.floor((positiveWords.length-TopXUsedWords)/5)});
 $('#slidePoint').attr({'min':20, 'max':50});
 $('#slideSam').attr({'min':0, 'max':50});
 $('#slideArm').attr({'min':0, 'max':50});
@@ -53,12 +54,45 @@ $("#toggle-switch-input").prop("checked", ARMhelp);
 
 let totalPoints = parseInt(getCookie("totalPoints"))
 if(!Number.isInteger(totalPoints)) totalPoints = 0
+if(getCookie("topXWords")){
+  topXArray = JSON.parse(getCookie("topXWords"))
+}else{
+  console.log("not found")
+}
 
 
+incrementObject("Absolutely", topXArray, "topXWords")
+incrementObject("Amazing", topXArray, "topXWords")
+incrementObject("Amazing", topXArray, "topXWords")
+incrementObject("Amazing", topXArray, "topXWords")
+incrementObject("Accepted", topXArray, "topXWords")
+incrementObject("Appreciate", topXArray, "topXWords")
+incrementObject("Awesome", topXArray, "topXWords")
+incrementObject("Definitely", topXArray, "topXWords")
+incrementObject("Delight", topXArray, "topXWords")
+incrementObject("Delight", topXArray, "topXWords")
+// console.log(JSON.stringify(getCookie("topXWords")))
+
+
+
+
+// console.log(topXArray)
+
+
+// let arrstringy = JSON.stringify(topXArray);
+// console.log(arrstringy);
+// let arrparse = JSON.parse(arrstringy);
+// console.log(arrparse);
+
+
+
+
+deleteCookie("topXWords")
 // deleteCookie("testCookie")
 // deleteCookie("totalPoints")
 let infoVar;
 refreshInfo()
+
 
 
 
