@@ -98,7 +98,7 @@ recognition.onend = ()=>{recognition.start()};
           // if(points = empathyWords) console.log(`Empathy Word Match: ${array[j][0]}`)
           if(points == samPoint){
             console.log(`Positive Word Match: ${array[j][0]}`)
-            incrementObject(array[j][0], topXArray, "topXWords")
+            incrementObject(array[j][0], topXArray, "topWordCookie")
           }
           if(points == armPoint) console.log(`ARM Phrase Match: ${array[j][0]}`)
           if(deleteMatch) matchWord=[]
@@ -154,7 +154,7 @@ recognition.onend = ()=>{recognition.start()};
       if (list.toLowerCase().includes(defaultWords[i][j].toLowerCase())) {
         boxData[boxes-(i+1)].active = false;
         console.log("Positive Word Match: " + boxData[boxes-(i+1)].text);
-        incrementObject(boxData[boxes-(i+1)].text, topXArray, "topXWords")
+        incrementObject(boxData[boxes-(i+1)].text, topXArray, "topWordCookie")
         }
       }
 
@@ -359,7 +359,7 @@ recognition.onend = ()=>{recognition.start()};
           obj[key] += 1;
           console.log(word)
           document.cookie = `${cookieName}=${JSON.stringify(arrayToIncrement)};path=/`
-          // console.log(JSON.stringify(getCookie("topXWords")))
+          // console.log(JSON.stringify(getCookie("topWordCookie")))
           return;
         }
       }
@@ -367,7 +367,7 @@ recognition.onend = ()=>{recognition.start()};
       arrayToIncrement.push({ [word]: 1 });
       console.log(word);
       document.cookie = `${cookieName}=${JSON.stringify(arrayToIncrement)};path=/`
-      // console.log(JSON.stringify(getCookie("topXWords")))
+      // console.log(JSON.stringify(getCookie("topWordCookie")))
     }
 
 

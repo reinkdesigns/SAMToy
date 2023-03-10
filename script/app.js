@@ -54,25 +54,9 @@ $("#toggle-switch-input").prop("checked", ARMhelp);
 
 let totalPoints = parseInt(getCookie("totalPoints"))
 if(!Number.isInteger(totalPoints)) totalPoints = 0
-if(getCookie("topXWords")){
-  topXArray = JSON.parse(getCookie("topXWords"))
-}else{
-  console.log("not found")
-  console.log(JSON.stringify(getCookie("topXWords")))
-}
+if(getCookie("topWordCookie")) topXArray = JSON.parse(getCookie("topWordCookie"))
 
 
-incrementObject("Absolutely", topXArray, "topXWords")
-incrementObject("Amazing", topXArray, "topXWords")
-incrementObject("Amazing", topXArray, "topXWords")
-incrementObject("Amazing", topXArray, "topXWords")
-incrementObject("Accepted", topXArray, "topXWords")
-incrementObject("Appreciate", topXArray, "topXWords")
-incrementObject("Awesome", topXArray, "topXWords")
-incrementObject("Definitely", topXArray, "topXWords")
-incrementObject("Delight", topXArray, "topXWords")
-incrementObject("Delight", topXArray, "topXWords")
-console.log(JSON.stringify(getCookie("topXWords")))
 
 
 
@@ -88,7 +72,7 @@ console.log(JSON.stringify(getCookie("topXWords")))
 
 
 
-deleteCookie("topXWords")
+deleteCookie("topWordCookie")
 // deleteCookie("testCookie")
 // deleteCookie("totalPoints")
 let infoVar;
