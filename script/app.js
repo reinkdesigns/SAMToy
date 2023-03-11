@@ -3,8 +3,9 @@ let deadAirThreshold = 60; //60seconds you can go without speaking before dead a
 let greenTimeout = 180; //180used to automaticly reset board if there are long times between calls 
 let deadAirDuration = 0;
 let boxData = [];
-let TopXUsedWords = 5
-$('#slideRow').attr({'min':2, 'max':Math.floor((positiveWords.length-TopXUsedWords)/5)});
+let topXUsedWords = setVarCookie({cookieName:"topXUsedWords",defaultValue:3})
+$('#slideTop').val(topXUsedWords)
+$('#slideRow').attr({'min':2, 'max':Math.floor((positiveWords.length-(topXUsedWords+10))/5)});
 $('#slidePoint').attr({'min':20, 'max':50});
 $('#slideSam').attr({'min':0, 'max':50});
 $('#slideArm').attr({'min':0, 'max':50});
@@ -56,81 +57,62 @@ let totalPoints = parseInt(getCookie("totalPoints"))
 if(!Number.isInteger(totalPoints)) totalPoints = 0
 if(getCookie("topWordCookie")) topXArray = JSON.parse(getCookie("topWordCookie"))
 
-
-
-
-
-
-// console.log(topXArray)
-
-
-// let arrstringy = JSON.stringify(topXArray);
-// console.log(arrstringy);
-// let arrparse = JSON.parse(arrstringy);
-// console.log(arrparse);
-
-
-
-
-deleteCookie("topWordCookie")
+// deleteCookie("topWordCookie")
 // deleteCookie("testCookie")
 // deleteCookie("totalPoints")
 let infoVar;
 refreshInfo()
 
-
-
-
-
-
-// goodPoint+badPoint
-
 $('#gearSetting').click(() => {
   $('.menu-overlay, .menu-container').css('display', 'block');
 });
 
+$('#cancel-button').click(() => {
+  console.log(boxes)
+  $('#slideRow').val(rowCount);
+  $('#slideTop').val(topXUsedWords);
+  $('#slidePoint').val(goodPoint);
+  $('#slideArm').val(armPoint);
+  $('#slideSam').val(samPoint);
+  $('#slideEmpathy').val(empathyPoint);
+  $('#slideNegative').val(negativePoint);
+  $('.menu-overlay, .menu-container').css('display', 'none');
+  updateSlider()
+})
+
 $('#ok-button').click(() => {
-  const slideRowValue = $('#slideRow').val();
+  rowCount = $('#slideRow').val();
+  const slideTopValue = $('#slideTop').val();
   const slidePointValue = $('#slidePoint').val();
   const slideArmValue = $('#slideArm').val();
   const slideSamValue = $('#slideSam').val();
   const slideEmpathyValue = $('#slideEmpathy').val();
   const slideNegativeValue = $('#slideNegative').val();
-  document.cookie = `rowCount = ${slideRowValue};path=/`;
+  document.cookie = `rowCount = ${rowCount};path=/`;
+  document.cookie = `topXUsedWords = ${slideTopValue};path=/`;
   document.cookie = `pointValue = ${slidePointValue};path=/`;
   document.cookie = `armPoint = ${slideArmValue};path=/`;
   document.cookie = `samPoint = ${slideSamValue};path=/`;
   document.cookie = `empathyPoint = ${slideEmpathyValue};path=/`;
   document.cookie = `negativePoint = ${slideNegativeValue};path=/`;
-  boxes = createBoxRows(parseInt(slideRowValue));
+  boxes = createBoxRows(parseInt(rowCount));
   setPoints({points:parseInt(slidePointValue)});
+  topXUsedWords = parseInt(slideTopValue)
   armPoint = parseInt(slideArmValue)
   samPoint = parseInt(slideSamValue)
   empathyPoint = parseInt(slideEmpathyValue)
   negativePoint = parseInt(slideNegativeValue)
   refreshInfo()
   $('#info').html(infoVar)
-  // Do something with the slider values, such as store them in variables or pass them to a function
   $('.menu-overlay, .menu-container').css('display', 'none');
+  updateSlider()
 });
 
-const sliders = [
-  { id: 'slideRow', label: 'Rows' },
-  { id: 'slidePoint', label: 'Sam Goal Points' },
-  { id: 'slideArm', label: 'ARM Statement Points' },
-  { id: 'slideSam', label: 'Sam Non-Goal Points' },
-  { id: 'slideEmpathy', label: 'Empathy Points' },
-  { id: 'slideNegative', label: 'Negative Phrase Points' },
-];
+updateSlider()
 
-sliders.forEach((slider) => {
-  const sliderElement = $(`#${slider.id}`);
-  const valueElement = $(`#${slider.id}-value`);
 
-  sliderElement.on('input', function() {
-    valueElement.text(`${slider.label}: ${$(this).val()}`);
-  }).trigger('input');
-});
+
+
 
 $('#info').html(infoVar)
 recognition.start();

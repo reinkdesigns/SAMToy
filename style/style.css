@@ -221,7 +221,7 @@ body {
   grid-column: 2;
 }
 
-#rerollButton, #newRoundButton, #gearSetting, #ok-button{
+#rerollButton, #newRoundButton, #gearSetting, #ok-button, #cancel-button{
   width: auto;
   background-color: #0078D7;
   color: rgb(255, 255, 255);
@@ -231,9 +231,10 @@ body {
   font-size: 1.2rem;
   margin: auto;
 }
-#ok-button{
+#ok-button, #cancel-button{
   justify-content: center;
   padding: .5rem 2rem;
+  margin: 0 .5rem;
 }
 
 #rerollButton{

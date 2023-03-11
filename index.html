@@ -43,26 +43,31 @@
         <h2>Settings</h2>
         <div class="slider-container">
           <span id="slideRow-value"></span>
-          <input type="range" id="slideRow" min="2" max="5" step="1" value="2" />
+          <input type="range" id="slideRow" min="2" max="5" step="1" value="2" title="Adjust the number of Rows of 5 displayed"/>
+
+          <span id="slideTop-value"></span>
+          <input type="range" id="slideTop" min="0" max="10" step="1" value="3" title="Adjust the amount of words to be omited as goals from your most used words."/>
+
 
           <span id="slidePoint-value"></span>
-          <input type="range" id="slidePoint" min="20" max="50" step="5" value="25" />
+          <input type="range" id="slidePoint" min="20" max="50" step="5" value="25" title="Adjust how many points each box is worth(this also effects the value)."/>
           
           <span id="slideSam-value"></span>
-          <input type="range" id="slideSam" min="0" max="50" step="5" value="5" />
+          <input type="range" id="slideSam" min="0" max="50" step="5" value="5" title="Adjust how many points each positive word that is not the current goal is worth."/>
 
           <span id="slideArm-value"></span>
-          <input type="range" id="slideArm" min="0" max="50" step="5" value="10" />
+          <input type="range" id="slideArm" min="0" max="50" step="5" value="10" title="Adjust how many points ARM phrase words are worth."/>
 
           <span id="slideEmpathy-value"></span>
-          <input type="range" id="slideEmpathy" min="0" max="50" step="5" value="5" />
+          <input type="range" id="slideEmpathy" min="0" max="50" step="5" value="5" title="Adjust how many points empathy phrase words are worth."/>
 
           <span id="slideNegative-value"></span>
-          <input type="range" id="slideNegative" min="-10" max="0" step="1" value="-2" />
+          <input type="range" id="slideNegative" min="-10" max="0" step="1" value="-2" title="Adjust how many points negative words remove."/>
 
 
         </div>
         <button id="ok-button">OK</button>
+        <button id="cancel-button">Cancel</button>
       </div>
 
       <div class="buttons">

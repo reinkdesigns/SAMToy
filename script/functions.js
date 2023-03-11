@@ -120,7 +120,7 @@ recognition.onend = ()=>{recognition.start()};
       }
 
       if (list.toLowerCase().includes("show me the top array")) {
-        console.log(topXArray)
+        console.log(topXArray.slice(0, topXUsedWords))
       }
 
 
@@ -194,7 +194,7 @@ recognition.onend = ()=>{recognition.start()};
     bonus = 0;
     firstCall = false
     isActive = true;
-
+    console.log(topXArray.slice(0, topXUsedWords))
     updateButton();
     fetchPositiveWord();
   }
@@ -220,7 +220,7 @@ recognition.onend = ()=>{recognition.start()};
       pulseColor({div:"#box" + (i + 1)})
       boxData.push({ text: addWord, active: true });
     }
-
+    if(itteration>20) break
     continueLoop = compairTopX({arr:boxData})
   }
 
@@ -253,8 +253,8 @@ recognition.onend = ()=>{recognition.start()};
     topXArray.sort(function(a, b) {
       return Object.values(b)[0] - Object.values(a)[0];
     });
-    console.log(topXArray)
-    let topX = topXArray.slice(0, TopXUsedWords).map(obj => Object.keys(obj)[0]);
+    
+    let topX = topXArray.slice(0, topXUsedWords).map(obj => Object.keys(obj)[0]);
     arr.forEach(obj => {
       if (topX.includes(obj.text)) {
         trueFalse = true
@@ -327,6 +327,28 @@ recognition.onend = ()=>{recognition.start()};
     return timeVar
   }
 
+  
+function updateSlider(){
+  const sliders = [
+    { id: 'slideRow', label: 'Rows' },
+    { id: 'slideTop', label: 'Omit Top Words' },
+    { id: 'slidePoint', label: 'Sam Goal Points' },
+    { id: 'slideArm', label: 'ARM Statement Points' },
+    { id: 'slideSam', label: 'Sam Non-Goal Points' },
+    { id: 'slideEmpathy', label: 'Empathy Points' },
+    { id: 'slideNegative', label: 'Negative Phrase Points' },
+  ];
+  
+  sliders.forEach((slider) => {
+    const sliderElement = $(`#${slider.id}`);
+    const valueElement = $(`#${slider.id}-value`);
+  
+    sliderElement.on('input', function() {
+      valueElement.text(`${slider.label}: ${$(this).val()}`);
+    }).trigger('input');
+  });
+}
+
   function createBoxRows(rowsOfFive){
     rowsOfFive *=5
     if (rowsOfFive>positiveWords.length) rowsOfFive = positiveWords.length;
@@ -352,6 +374,9 @@ recognition.onend = ()=>{recognition.start()};
     }
 
     function incrementObject(word, arrayToIncrement, cookieName) {
+
+      if (defaultWords.some(subarray => subarray.includes(word))) {console.log("default word found");return}
+
       for (let i = 0; i < arrayToIncrement.length; i++) {
         const obj = arrayToIncrement[i];
         const key = Object.keys(obj)[0]; 
