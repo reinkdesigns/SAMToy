@@ -83,7 +83,6 @@ recognition.onend = ()=>{recognition.start()};
       if (!boxData[i].active) goodBoxes++;
       // calculate points based on good and bad boxes
       points = (goodBoxes * goodPoint) - (badBoxes * badPoint);
-      
     }
   }
 
@@ -94,7 +93,11 @@ recognition.onend = ()=>{recognition.start()};
           matchWord.push(array[j][0])
           bonus += points
           //switch case
-          if(points == negativePoint) console.log(`Negative Word Match: ${array[j][0]}`)
+          if(points == negativePoint) {
+            flashMessage(array[j][0], 3000);
+            errorBeep(.20)
+            console.log(`Negative Word Match: ${array[j][0]}`)
+          }
           // if(points = empathyWords) console.log(`Empathy Word Match: ${array[j][0]}`)
           if(points == samPoint){
             console.log(`Positive Word Match: ${array[j][0]}`)
@@ -119,8 +122,9 @@ recognition.onend = ()=>{recognition.start()};
         resetRound(purgeScore);
       }
 
-      if (list.toLowerCase().includes("show me the top array")) {
+      if (list.toLowerCase().includes("show me the top")) {
         console.log(topXArray.slice(0, topXUsedWords))
+        console.log(`Words used: ${topXArray.length} of ${positiveWords.length}`)
       }
 
 
@@ -160,7 +164,7 @@ recognition.onend = ()=>{recognition.start()};
 
     }
     
-    if (bonus<0) bonus = 0
+    //if (bonus<0) bonus = 0 //negative Bonus protection
     if(bonus>oldBonus) pulseBackdrop({color:"#12e712"})
     if(bonus<oldBonus) pulseBackdrop({color:"#e63131"})
   }
@@ -185,6 +189,19 @@ recognition.onend = ()=>{recognition.start()};
       pulseBackdrop({color:"#12e712"})
   }
 
+  function errorBeep(duration=1){
+    // create a new oscillator node for each beep sound
+    const oscillator = audioCtx.createOscillator();
+    oscillator.frequency.setValueAtTime(100, audioCtx.currentTime);
+    oscillator.type = 'sine';
+    oscillator.connect(audioCtx.destination);
+  
+    // start the oscillator and schedule it to stop after a certain time
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + duration);
+  }
+
+
   function resetRound(purgeScore=0) {
     $('#armTopText').html("ARM Statements to try.<br />")
     fetchArm()
@@ -195,6 +212,7 @@ recognition.onend = ()=>{recognition.start()};
     firstCall = false
     isActive = true;
     console.log(topXArray.slice(0, topXUsedWords))
+    console.log(`Words used: ${topXArray.length} of ${positiveWords.length}`)
     updateButton();
     fetchPositiveWord();
   }
@@ -332,7 +350,7 @@ function updateSlider(){
   const sliders = [
     { id: 'slideRow', label: 'Rows' },
     { id: 'slideTop', label: 'Omit Top Words' },
-    { id: 'slidePoint', label: 'Sam Goal Points' },
+    { id: 'slidePoint', label: 'Missed Opportunity Points' },
     { id: 'slideArm', label: 'ARM Statement Points' },
     { id: 'slideSam', label: 'Sam Non-Goal Points' },
     { id: 'slideEmpathy', label: 'Empathy Points' },
@@ -361,11 +379,12 @@ function updateSlider(){
     return rowsOfFive 
     }
 
-    function setPoints({points=15}){ //sets the points for each box good and bad
-      goodPoint = Math.max(points,15)
-      badPoint = Math.min(Math.ceil(goodPoint/5/2)*5,goodPoint-5)
-      badPoint = Math.max(0,badPoint)
-    }
+    //legacy
+    // function setPoints({points=15}){ //sets the points for each box good and bad
+    //   goodPoint = Math.max(points,15)
+    //   badPoint = Math.min(Math.ceil(goodPoint/5/2)*5,goodPoint-5)
+    //   badPoint = Math.max(0,badPoint)
+    // }
     
     function setVarCookie({cookieName="",defaultValue=0}){
       let holdVar = parseInt(getCookie(cookieName))
@@ -395,12 +414,42 @@ function updateSlider(){
       // console.log(JSON.stringify(getCookie("topWordCookie")))
     }
 
+    function flashMessage(message, duration) {
+      // Create a div for the message
+      const messageDiv = $('<div>')
+        .text(message)
+        .css({
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          padding: '10px',
+          backgroundColor: '#fff',
+          borderRadius: '5px',
+          boxShadow: '0 0 10px rgba(256, 0, 0, 1)',
+          opacity: 0,
+          'z-index': 101,
+        })
+        .appendTo('body');
+    
+      // Fade in the message
+      messageDiv.animate({ opacity: 1 }, 500);
+    
+      // Fade out the message after the specified duration
+      setTimeout(() => {
+        messageDiv.animate({ opacity: 0 }, 500, () => {
+          messageDiv.remove();
+        });
+      }, duration);
+    }
 
 function refreshInfo(){
   lowestScore = badPoint*boxes
   scoreDelta = goodPoint+badPoint
   minimumGoodScore = Math.floor(lowestScore/scoreDelta)+1
   lowestPositiveScore = (minimumGoodScore*scoreDelta)-lowestScore
+  let negativeProtect= ""
+  // let negativeProtect= "Don't worry, bonus points can not go negative."
   infoVar =(
       `The board will automatically reset after saying the word "Spectrum" (as in
       "Thank you for calling spectrum internet support.").<br>
@@ -412,13 +461,13 @@ function refreshInfo(){
       When accessing this game the site will ask to access your mic, Please allow it this access.
       Each round you will be given ${boxes} words to say during your call. The more words you are able to say the higher your score will be. 
       At the end of each round. You gain ${goodPoint} points for each word you manage to  use
-      and lose ${badPoint} points for each word you are unable to use. This means using at least ${minimumGoodScore} words will give you a score of ${(minimumGoodScore*scoreDelta)-lowestScore} points
+      and lose ${badPoint} points for each missed opportunity(words you are not able to use). This means using at least ${minimumGoodScore} words will give you a score of ${(minimumGoodScore*scoreDelta)-lowestScore} points
       while using only ${minimumGoodScore-1} words will give you a score of ${((minimumGoodScore-1)*scoreDelta)-lowestScore} points.
       The site also listens for dead air from your side. This dead air is not factored into the score.
       However, when detected it will prompt you with helpful phrases to fill this gap.<br>
       You are given 1 Reroll per round incase you are given a list of words you aren't comfortable with using.
       You can also get bonus points if you are using ARM centric phrases(${armPoint} Points), using Empathy words (${empathyPoint} Points), or using SAM buzz words that are not the current rounds goal (${samPoint} points). 
-      You will also lose Bonus points for each negative word you use (${negativePoint} Points). Don't worry, bonus points can not go below 0.
+      You will also lose Bonus points for each negative word you use (${negativePoint} Points).${negativeProtect}<br>
       ARM phrases only score points within the 1st ${armWindow} seconds of the call.<br>
       This voice recognition software is not 100% any may occasionally not catch some words, or misunderstand you.
       <br><br>Good luck and have fun and say Spectrum to start!`

@@ -14,6 +14,7 @@ let armStatment = [
   ["See What's Going On",],
   ["Help With",],
   ["Investigate",],
+
 ]
 
 
@@ -71,8 +72,38 @@ let armDisplay = [
 ]
 
 let negativeWords = [ 
-  ["i can't","we can't",],
-  ["i don't","we don't",],
+  ["Abysmal",],
+  ["Adverse",],
+  ["Anxious",],
+  ["Aweful",],
+  ["Confused",],
+  ["Dead",],
+  ["Depressed",],
+  ["Detrimental",],
+  ["Dishonest",],
+  ["Foul",],
+  ["Horrible",],
+  ["Hurt",],
+  ["Ignore",],
+  ["Impatient",],
+  ["Impossible",],
+  ["Negate",],
+  ["Petty",],
+  ["Poor",],
+  ["Reject",],
+  ["Rude",],
+  ["Terrible",],
+  ["Unwelcome",],
+  ["Worthless",],
+  ["Don't Worry","No Worries"],
+  ["Not to Worry",],
+  ["No Sir"],
+  ["No Ma'am",],
+  ["It's Not","I'm Not",],
+  ["No trouble",],
+  ["No Problem",],
+  ["Can't","can not"],
+  ["Don't","Do Not"],
   ["are unable","am unable","i'm unable","not able",],
   ["unfortunately",],
 ];
@@ -89,8 +120,9 @@ let empathyWords = [ //if you see words here with letters missing, that is inten
   ["Patien",],
   ["reliabl",],
   ["Sorry to hear","Sorry you're having","Sorry that happened",],
-  ["our services",],
-  ["sympath",],
+  ["Thank You",],
+  ["Sympath",],
+  ["Stressful",],
   ["Understanding",],
 ]
 
@@ -145,8 +177,8 @@ let positiveWords = [ // [0] is the base word. [1...] are alt words of the same 
   ["Splendid",],
   ["Superb",],
   ["Terrific",],
-  ["Thank You",],
   ["Very Good","Really Good"],//listed a secondary positive word for "Good" 
+  ["Working With Me","Working With Us"]
 ];
 
 
