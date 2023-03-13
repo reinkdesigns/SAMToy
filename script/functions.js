@@ -95,7 +95,7 @@ recognition.onend = ()=>{recognition.start()};
           //switch case
           if(points == negativePoint) {
             flashMessage(array[j][0], 3000);
-            errorBeep(.20)
+            errorBeep(.50)
             console.log(`Negative Word Match: ${array[j][0]}`)
           }
           // if(points = empathyWords) console.log(`Empathy Word Match: ${array[j][0]}`)
@@ -402,7 +402,7 @@ function updateSlider(){
         if (key.toLowerCase() === word.toLowerCase()) {
           obj[key] += 1;
           console.log(word)
-          document.cookie = `${cookieName}=${JSON.stringify(arrayToIncrement)};path=/`
+          document.cookie = `${cookieName}=${JSON.stringify(arrayToIncrement)};${cookieExpire};path=/`
           // console.log(JSON.stringify(getCookie("topWordCookie")))
           return;
         }
@@ -410,7 +410,7 @@ function updateSlider(){
       // If the word is not already in the array, add it with a value of 1
       arrayToIncrement.push({ [word]: 1 });
       console.log(word);
-      document.cookie = `${cookieName}=${JSON.stringify(arrayToIncrement)};path=/`
+      document.cookie = `${cookieName}=${JSON.stringify(arrayToIncrement)};${cookieExpire};path=/`
       // console.log(JSON.stringify(getCookie("topWordCookie")))
     }
 

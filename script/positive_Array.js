@@ -19,7 +19,7 @@ let TEMPphrases = [
   ["I understand the importance of a functioning [service]. Let me assist you in resolving your [service issue].",],
   ["I'm here to help with your [service issue]. Let's get your services back to normal quickly.",],
   ["We believe in providing exceptional service. Let me investigate your [service issue].",],
-  
+
   ["I'm here to assist you in resolving your network [service issue]. I'm definitely up for the challenge!",],
   ["I'm sorry that happened. Let's get your network [service issue] fixed and back to normal as soon as possible.",],
   ["We are a team of experts, I'm sure we can resolve your network [service issue] quickly and efficiently.",],

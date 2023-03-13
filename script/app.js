@@ -1,4 +1,5 @@
 const audioCtx = new AudioContext();
+const cookieExpire = "expires=Tue, 19 Jan 2038 03:14:07 UTC"
 let lock = false;
 let deadAirThreshold = 60; //60seconds you can go without speaking before dead air reminder comes up
 let greenTimeout = 180; //180used to automaticly reset board if there are long times between calls 
@@ -93,13 +94,13 @@ $('#ok-button').click(() => {
   const slideSamValue = $('#slideSam').val();
   const slideEmpathyValue = $('#slideEmpathy').val();
   const slideNegativeValue = $('#slideNegative').val();
-  document.cookie = `rowCount = ${rowCount};path=/`;
-  document.cookie = `topXUsedWords = ${slideTopValue};path=/`;
-  document.cookie = `badPoint = ${slidePointValue};path=/`;
-  document.cookie = `armPoint = ${slideArmValue};path=/`;
-  document.cookie = `samPoint = ${slideSamValue};path=/`;
-  document.cookie = `empathyPoint = ${slideEmpathyValue};path=/`;
-  document.cookie = `negativePoint = ${slideNegativeValue};path=/`;
+  document.cookie = `rowCount = ${rowCount};${cookieExpire};path=/`;
+  document.cookie = `topXUsedWords = ${slideTopValue};${cookieExpire};path=/`;
+  document.cookie = `badPoint = ${slidePointValue};${cookieExpire};path=/`;
+  document.cookie = `armPoint = ${slideArmValue};${cookieExpire};path=/`;
+  document.cookie = `samPoint = ${slideSamValue};${cookieExpire};path=/`;
+  document.cookie = `empathyPoint = ${slideEmpathyValue};${cookieExpire};path=/`;
+  document.cookie = `negativePoint = ${slideNegativeValue};${cookieExpire};path=/`;
   boxes = createBoxRows(parseInt(rowCount));
   // setPoints({points:parseInt(slidePointValue)});
   badPoint = parseInt(slidePointValue)
@@ -111,7 +112,7 @@ $('#ok-button').click(() => {
   refreshInfo()
   $('#info').html(infoVar)
   $('.menu-overlay, .menu-container').css('display', 'none');
-  resetRound(1)
+  resetRound(true)
   updateSlider()
 });
 
@@ -139,7 +140,7 @@ $("#toggle-switch-input").click(function() {
      ARMhelp = 0
      $(".armBox").fadeOut(0)
   }
-  document.cookie = `ARMhelp = ${ARMhelp}`;
+  document.cookie = `ARMhelp = ${ARMhelp};${cookieExpire};/path`;
   });
 //
 $("#rerollButton").click(function () {
