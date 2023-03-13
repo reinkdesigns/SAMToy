@@ -1,20 +1,11 @@
 let armStatment = [
-  ["More Than Happy To Help",],
-  ["More Than Happy To assist",],
-  ["See What I Can Do",],
-  ["Let Me Take A Look",],
-  ["I Can Assist",],
-  ["Certainly assist",],
-  ["Certainly help",],
-  ["Certainly understand",],
-  ["Definitely assist",],
-  ["Definitely Help",],
-  ["Definitely understand",],
-  ["Take Care Of",],
+  ["I Can Do",],
+  ["Take A Look",],
+  ["Help","Assist","Care",],
+  ["Understand",],
+  ["Care",],
   ["See What's Going On",],
-  ["Help With",],
   ["Investigate",],
-
 ]
 
 
@@ -178,7 +169,8 @@ let positiveWords = [ // [0] is the base word. [1...] are alt words of the same 
   ["Superb",],
   ["Terrific",],
   ["Very Good","Really Good"],//listed a secondary positive word for "Good" 
-  ["Working With Me","Working With Us"]
+  ["Working With Me","Working With Us","Working With You", "Work With You"],
+  ["Wonderful",],
 ];
 
 

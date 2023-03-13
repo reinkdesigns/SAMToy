@@ -41,7 +41,7 @@ let samPoint = setVarCookie({cookieName:"samPoint",defaultValue:5})
 $('#slideSam').val(samPoint)
 let empathyPoint = setVarCookie({cookieName:"empathyPoint",defaultValue:5})
 $('#slideEmpathy').val(empathyPoint)
-let negativePoint = setVarCookie({cookieName:"negativePoint",defaultValue:-2})
+let negativePoint = setVarCookie({cookieName:"negativePoint",defaultValue:-5})
 $('#slideNegative').val(negativePoint)
 
 let topXArray=[]
