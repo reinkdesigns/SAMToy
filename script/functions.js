@@ -201,7 +201,6 @@ recognition.onend = ()=>{recognition.start()};
     oscillator.stop(audioCtx.currentTime + duration);
   }
 
-
   function resetRound(purgeScore=0) {
     $('#armTopText').html("ARM Statements to try.<br />")
     fetchArm()
@@ -249,7 +248,7 @@ recognition.onend = ()=>{recognition.start()};
     $("#box"+boxes-i).text(defaultWords[i][0]);
     }
   }
-  // console.log(getCookie("totalPoints"))
+
   function setCookie({cname=0, cvalue=0, path="/"}) {
     var expires = "";
     var date = new Date();
@@ -261,7 +260,6 @@ recognition.onend = ()=>{recognition.start()};
   function deleteCookie(cname) {
     document.cookie = `${cname}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
   }
-
 
   function compairTopX({arr={}}){
 
@@ -282,8 +280,6 @@ recognition.onend = ()=>{recognition.start()};
     return false
   }
 
-
-
   function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -299,6 +295,7 @@ recognition.onend = ()=>{recognition.start()};
     }
     return "";
   }
+
   function updateTick() {
     //updates HTML the display and timer variables every seconds
         callTime++ //this function isnt being called while not in focus
@@ -313,7 +310,7 @@ recognition.onend = ()=>{recognition.start()};
           $("#box" + (i + 1)).css({"background-color": "#64c564",color: "white",});
           if (boxData[i].active) $("#box" + (i + 1)).css({"background-color": "white", color: "black" });
         }
-      }
+  }
     
   function alertFirstCall() {
     if(firstCall){
@@ -345,27 +342,26 @@ recognition.onend = ()=>{recognition.start()};
     return timeVar
   }
 
-  
-function updateSlider(){
-  const sliders = [
-    { id: 'slideRow', label: 'Rows' },
-    { id: 'slideTop', label: 'Omit Top Words' },
-    { id: 'slidePoint', label: 'Missed Opportunity Points' },
-    { id: 'slideArm', label: 'ARM Statement Points' },
-    { id: 'slideSam', label: 'Sam Non-Goal Points' },
-    { id: 'slideEmpathy', label: 'Empathy Points' },
-    { id: 'slideNegative', label: 'Negative Phrase Points' },
-  ];
-  
-  sliders.forEach((slider) => {
-    const sliderElement = $(`#${slider.id}`);
-    const valueElement = $(`#${slider.id}-value`);
-  
-    sliderElement.on('input', function() {
-      valueElement.text(`${slider.label}: ${$(this).val()}`);
-    }).trigger('input');
-  });
-}
+  function updateSlider(){
+    const sliders = [
+      { id: 'slideRow', label: 'Rows' },
+      { id: 'slideTop', label: 'Omit Top Words' },
+      { id: 'slidePoint', label: 'Missed Opportunity Points' },
+      { id: 'slideArm', label: 'ARM Statement Points' },
+      { id: 'slideSam', label: 'Sam Non-Goal Points' },
+      { id: 'slideEmpathy', label: 'Empathy Points' },
+      { id: 'slideNegative', label: 'Negative Phrase Points' },
+    ];
+    
+    sliders.forEach((slider) => {
+      const sliderElement = $(`#${slider.id}`);
+      const valueElement = $(`#${slider.id}-value`);
+    
+      sliderElement.on('input', function() {
+        valueElement.text(`${slider.label}: ${$(this).val()}`);
+      }).trigger('input');
+    });
+  }
 
   function createBoxRows(rowsOfFive){
     rowsOfFive *=5
@@ -377,101 +373,108 @@ function updateSlider(){
     boxData = [];
     for (let i = 0; i < rowsOfFive+1; i++) boxData.push({ text:"", active: true });
     return rowsOfFive 
-    }
-
-    //legacy
-    // function setPoints({points=15}){ //sets the points for each box good and bad
-    //   goodPoint = Math.max(points,15)
-    //   badPoint = Math.min(Math.ceil(goodPoint/5/2)*5,goodPoint-5)
-    //   badPoint = Math.max(0,badPoint)
-    // }
+  }
     
-    function setVarCookie({cookieName="",defaultValue=0}){
-      let holdVar = parseInt(getCookie(cookieName))
-      if(!Number.isInteger(holdVar)) holdVar = defaultValue
-      return holdVar
-    }
+  function setVarCookie({cookieName="",defaultValue=0}){
+    let holdVar = parseInt(getCookie(cookieName))
+    if(!Number.isInteger(holdVar)) holdVar = defaultValue
+    return holdVar
+  }
 
-    function incrementObject(word, arrayToIncrement, cookieName) {
+  function incrementObject(word, arrayToIncrement, cookieName) {
 
-      if (defaultWords.some(subarray => subarray.includes(word))) {console.log("default word found");return}
+    if (defaultWords.some(subarray => subarray.includes(word))) {console.log("default word found");return}
 
-      for (let i = 0; i < arrayToIncrement.length; i++) {
-        const obj = arrayToIncrement[i];
-        const key = Object.keys(obj)[0]; 
-        if (key.toLowerCase() === word.toLowerCase()) {
-          obj[key] += 1;
-          console.log(word)
-          document.cookie = `${cookieName}=${JSON.stringify(arrayToIncrement)};${cookieExpire};path=/`
-          // console.log(JSON.stringify(getCookie("topWordCookie")))
-          return;
+    let breakFunc = true //guard clause
+    for(let i = 0;i<positiveWords.length;i++){
+      for(let j = 0;j<positiveWords[i].length;j++){
+        //loop sub array to compare given word to positive array list
+        //if no match found break function
+        if(positiveWords[i][j].toLowerCase() == word.toLowerCase()){
+          breakFunc = false
+          break
         }
       }
-      // If the word is not already in the array, add it with a value of 1
-      arrayToIncrement.push({ [word]: 1 });
-      console.log(word);
-      document.cookie = `${cookieName}=${JSON.stringify(arrayToIncrement)};${cookieExpire};path=/`
-      // console.log(JSON.stringify(getCookie("topWordCookie")))
+      if(!breakFunc) break
     }
+    if(breakFunc) return
 
-    function flashMessage(message, duration) {
-      // Create a div for the message
-      const messageDiv = $('<div>')
-        .text(message)
-        .css({
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          padding: '10px',
-          backgroundColor: '#fff',
-          borderRadius: '5px',
-          boxShadow: '0 0 10px rgba(256, 0, 0, 1)',
-          opacity: 0,
-          'z-index': 101,
-        })
-        .appendTo('body');
-    
-      // Fade in the message
-      messageDiv.animate({ opacity: 1 }, 500);
-    
-      // Fade out the message after the specified duration
-      setTimeout(() => {
-        messageDiv.animate({ opacity: 0 }, 500, () => {
-          messageDiv.remove();
-        });
-      }, duration);
-    }
-
-function refreshInfo(){
-  lowestScore = badPoint*boxes
-  scoreDelta = goodPoint+badPoint
-  minimumGoodScore = Math.floor(lowestScore/scoreDelta)+1
-  lowestPositiveScore = (minimumGoodScore*scoreDelta)-lowestScore
-  let negativeProtect= ""
-  // let negativeProtect= "Don't worry, bonus points can not go negative."
-  infoVar =(
-      `The board will automatically reset after saying the word "Spectrum" (as in
-      "Thank you for calling spectrum internet support.").<br>
-      Or clicking the "New Round" button. To help with short calls, I won't score any round that lasts less than ${minScorTime()}.
-      There are a few phrases that include the word "Spectrum" such as "Spectrum Email" I will do my best not to end the round early if I hear these, but I am unable to account 
-      for all of these without making it to difficult to natrualy start a new round<br><br>
-      Points will be added to the total each time the board resets 
-      The points are only displayed to you in an effort to gamify the process and are not reported to anyone or used in any metrics.
-      When accessing this game the site will ask to access your mic, Please allow it this access.
-      Each round you will be given ${boxes} words to say during your call. The more words you are able to say the higher your score will be. 
-      At the end of each round. You gain ${goodPoint} points for each word you manage to  use
-      and lose ${badPoint} points for each missed opportunity(words you are not able to use). This means using at least ${minimumGoodScore} words will give you a score of ${(minimumGoodScore*scoreDelta)-lowestScore} points
-      while using only ${minimumGoodScore-1} words will give you a score of ${((minimumGoodScore-1)*scoreDelta)-lowestScore} points.
-      The site also listens for dead air from your side. This dead air is not factored into the score.
-      However, when detected it will prompt you with helpful phrases to fill this gap.<br>
-      You are given 1 Reroll per round incase you are given a list of words you aren't comfortable with using.
-      You can also get bonus points if you are using ARM centric phrases(${armPoint} Points), using Empathy words (${empathyPoint} Points), or using SAM buzz words that are not the current rounds goal (${samPoint} points). 
-      You will also lose Bonus points for each negative word you use (${negativePoint} Points).${negativeProtect}<br>
-      ARM phrases only score points within the 1st ${armWindow} seconds of the call.<br>
-      This voice recognition software is not 100% any may occasionally not catch some words, or misunderstand you.
-      <br><br>Good luck and have fun and say Spectrum to start!`
-  )
+    for (let i = 0; i < arrayToIncrement.length; i++) {
+      const obj = arrayToIncrement[i];
+      const key = Object.keys(obj)[0]; 
+      if (key.toLowerCase() === word.toLowerCase()) {
+        obj[key] += 1;
+        console.log(word)
+        document.cookie = `${cookieName}=${JSON.stringify(arrayToIncrement)};${cookieExpire};path=/`
+        // console.log(JSON.stringify(getCookie("topWordCookie")))
+        return;
       }
+    }
+    // If the word is not already in the array, add it with a value of 1
+    arrayToIncrement.push({ [word]: 1 });
+    console.log(word);
+    document.cookie = `${cookieName}=${JSON.stringify(arrayToIncrement)};${cookieExpire};path=/`
+    // console.log(JSON.stringify(getCookie("topWordCookie")))
+  }
+
+  function flashMessage(message, duration) {
+    // Create a div for the message
+    const messageDiv = $('<div>')
+      .text(message)
+      .css({
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        padding: '10px',
+        backgroundColor: '#fff',
+        borderRadius: '5px',
+        boxShadow: '0 0 10px rgba(256, 0, 0, 1)',
+        opacity: 0,
+        'z-index': 101,
+      })
+      .appendTo('body');
+  
+    // Fade in the message
+    messageDiv.animate({ opacity: 1 }, 500);
+  
+    // Fade out the message after the specified duration
+    setTimeout(() => {
+      messageDiv.animate({ opacity: 0 }, 500, () => {
+        messageDiv.remove();
+      });
+    }, duration);
+  }
+
+  function refreshInfo(){
+    lowestScore = badPoint*boxes
+    scoreDelta = goodPoint+badPoint
+    minimumGoodScore = Math.floor(lowestScore/scoreDelta)+1
+    lowestPositiveScore = (minimumGoodScore*scoreDelta)-lowestScore
+    let negativeProtect= ""
+    // let negativeProtect= "Don't worry, bonus points can not go negative."
+    infoVar =(
+        `The board will automatically reset after saying the word "Spectrum" (as in
+        "Thank you for calling spectrum internet support.").<br>
+        Or clicking the "New Round" button. To help with short calls, I won't score any round that lasts less than ${minScorTime()}.
+        There are a few phrases that include the word "Spectrum" such as "Spectrum Email" I will do my best not to end the round early if I hear these, but I am unable to account 
+        for all of these without making it to difficult to natrualy start a new round<br><br>
+        Points will be added to the total each time the board resets 
+        The points are only displayed to you in an effort to gamify the process and are not reported to anyone or used in any metrics.
+        When accessing this game the site will ask to access your mic, Please allow it this access.
+        Each round you will be given ${boxes} words to say during your call. The more words you are able to say the higher your score will be. 
+        At the end of each round. You gain ${goodPoint} points for each word you manage to  use
+        and lose ${badPoint} points for each missed opportunity(words you are not able to use). This means using at least ${minimumGoodScore} words will give you a score of ${(minimumGoodScore*scoreDelta)-lowestScore} points
+        while using only ${minimumGoodScore-1} words will give you a score of ${((minimumGoodScore-1)*scoreDelta)-lowestScore} points.
+        The site also listens for dead air from your side. This dead air is not factored into the score.
+        However, when detected it will prompt you with helpful phrases to fill this gap.<br>
+        You are given 1 Reroll per round incase you are given a list of words you aren't comfortable with using.
+        You can also get bonus points if you are using ARM centric phrases(${armPoint} Points), using Empathy words (${empathyPoint} Points), or using SAM buzz words that are not the current rounds goal (${samPoint} points). 
+        You will also lose Bonus points for each negative word you use (${negativePoint} Points).${negativeProtect}<br>
+        ARM phrases only score points within the 1st ${armWindow} seconds of the call.<br>
+        This voice recognition software is not 100% any may occasionally not catch some words, or misunderstand you.
+        <br><br>Good luck and have fun and say Spectrum to start!`
+    )
+  }
   
   

@@ -118,7 +118,7 @@ let empathyWords = [ //if you see words here with letters missing, that is inten
 ]
 
 
-
+ 
 
 let positiveWords = [ // [0] is the base word. [1...] are alt words of the same sentiment i.e easy vs easily will be the same word
   ["Absolutely",],
