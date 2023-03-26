@@ -110,7 +110,7 @@ let empathyWords = [ //if you see words here with letters missing, that is inten
   ["Our Support",],
   ["Patien",],
   ["reliabl",],
-  ["Sorry to hear","Sorry you're having","Sorry that happened",],
+  ["Sorry","Sorry to hear","Sorry you're having","Sorry that happened",],
   ["Thank You",],
   ["Sympath",],
   ["Stressful",],
