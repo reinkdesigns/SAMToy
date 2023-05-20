@@ -164,7 +164,7 @@ let positiveWords = [ // [0] is the base word. [1...] are alt words of the same 
   ["Renowend",],
   ["Resolve","Resolution"],
   ["Sensational",],
-  ["Skillful",],
+  ["Skillful","skill","skilled"],
   ["Splendid",],
   ["Superb",],
   ["Terrific",],
@@ -244,4 +244,6 @@ let ignoreWords =[ //list of words to ignore a round reset if said in the same l
   "technician",
   "wifi",
   "wi-fi",
+  "best",
+  "apart",
   ]
