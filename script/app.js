@@ -25,7 +25,7 @@ let goodBoxes = 0;
 // let badBoxes = 0;
 let bonus = 0;
 let goodPoint = 50;
-setdate()
+safeDate()
 
 
 

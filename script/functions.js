@@ -12,7 +12,7 @@ recognition.maxAlternatives = 10;
 recognition.onresult = (e)=>{logInputRunCheckWord(e)};
 recognition.onend = ()=>{recognition.start()};
 
-function setdate() {
+function safeDate() {
   let currentDate = new Date();
   currentDate.setDate(currentDate.getDate() + 8);
   let day = currentDate.getDate();
@@ -240,7 +240,7 @@ function setdate() {
   function resetRound(purgeScore=0) {
     $('#armTopText').html("ARM Statements to try.<br />")
     fetchArm()
-    setdate()
+    safeDate()
     if(!purgeScore) passScore()
     deadAirDuration = 0
     callTime=0
