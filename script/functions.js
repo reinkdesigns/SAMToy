@@ -12,6 +12,42 @@ recognition.maxAlternatives = 10;
 recognition.onresult = (e)=>{logInputRunCheckWord(e)};
 recognition.onend = ()=>{recognition.start()};
 
+function setdate() {
+  let currentDate = new Date();
+  currentDate.setDate(currentDate.getDate() + 8);
+  let day = currentDate.getDate();
+  let month = currentDate.getMonth() + 1; // Months are zero-based, so we add 1
+  let year = currentDate.getFullYear();
+
+  // Get the weekday name
+  let options = { weekday: 'long' };
+  let weekday = new Intl.DateTimeFormat('en-US', options).format(currentDate);
+
+  // Get the day suffix
+  let daySuffix;
+  if (day >= 11 && day <= 13) {
+    daySuffix = "th";
+  } else {
+    switch (day % 10) {
+      case 1:
+        daySuffix = "st";
+        break;
+      case 2:
+        daySuffix = "nd";
+        break;
+      case 3:
+        daySuffix = "rd";
+        break;
+      default:
+        daySuffix = "th";
+        break;
+    }
+  }
+
+  let formattedDate = `${weekday}, the ${day}${daySuffix}`;
+
+  $("#safeDate-text").text(`FCR: ${formattedDate}`);
+}
 
   function logInputRunCheckWord(e){
     clearTimeout(timer); // Reset timer
