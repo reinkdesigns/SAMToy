@@ -240,6 +240,7 @@ function setdate() {
   function resetRound(purgeScore=0) {
     $('#armTopText').html("ARM Statements to try.<br />")
     fetchArm()
+    setdate()
     if(!purgeScore) passScore()
     deadAirDuration = 0
     callTime=0
