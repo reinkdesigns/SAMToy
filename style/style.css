@@ -221,7 +221,7 @@ body {
   grid-column: 2;
 }
 
-#rerollButton, #newRoundButton, #gearSetting, #ok-button, #cancel-button{
+#rerollButton, #newRoundButton, #pauseButton, #gearSetting, #ok-button, #cancel-button{
   width: auto;
   background-color: #0078D7;
   color: rgb(255, 255, 255);
@@ -240,6 +240,11 @@ body {
 #rerollButton{
   grid-row: 2;
   grid-column: 1;
+}
+
+#pauseButton{
+  grid-row: 2;
+  grid-column: 2;
 }
 
 #newRoundButton{

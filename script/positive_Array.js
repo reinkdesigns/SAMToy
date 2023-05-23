@@ -227,6 +227,12 @@ let defaultWords =[
   ["\"Empathy\" \"Phrase\"", "Apologize", "Approachable", "compassion", "Empath", "Encouraging", "Frustrat", "Inconvenienc", "Our Support", "Patien", "reliabl", "Sorry to hear", "Sorry you're having", "Sorry that happened", "our services", "sympath", "Understanding",],
 ]
 
+let spectrumStartWord =[
+  "call",
+  "reach",
+  "repair",
+]
+
 let ignoreWords =[ //list of words to ignore a round reset if said in the same line as the word spectrum
   ".com",
   ".net",
@@ -238,6 +244,7 @@ let ignoreWords =[ //list of words to ignore a round reset if said in the same l
   "modem",
   "office",
   "receiver",
+  "service",
   "remote",
   "router",
   "store",

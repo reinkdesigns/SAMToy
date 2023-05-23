@@ -29,12 +29,6 @@ safeDate()
 
 
 
-
-
-// let pointValue = setVarCookie({cookieName:"pointValue",defaultValue:25})
-// setPoints({points:pointValue});
-// $('#slidePoint').val(pointValue)
-
 let badPoint = setVarCookie({cookieName:"badPoint",defaultValue:25})
 $('#slidePoint').val(badPoint)
 let armPoint = setVarCookie({cookieName:"armPoint",defaultValue:10})
@@ -46,6 +40,7 @@ $('#slideEmpathy').val(empathyPoint)
 let negativePoint = setVarCookie({cookieName:"negativePoint",defaultValue:-5})
 $('#slideNegative').val(negativePoint)
 
+let pauseSAMToy = false
 let topXArray=[]
 let countShortCalls = true; //should i count short calls if they have a positive score
 let armTime=0;
@@ -153,7 +148,24 @@ $("#rerollButton").click(function () {
   }
 });
 
+
+
+$("#pauseButton").click(function () {
+
+  let buttonText = $(this).text(); // Get the current text of the button
+  if (buttonText === "Pause") {
+    pauseSAMToy = true
+    $(this).text("Unpause"); // Change the text to "Unpause"
+  } else {
+    pauseSAMToy = false
+    $(this).text("Pause"); // Change the text back to "Pause"
+  }
+
+});
+
+
 $("#newRoundButton").click(function () {resetRound();});
+
 
 
 setInterval(()=>{updateTick()},1000)

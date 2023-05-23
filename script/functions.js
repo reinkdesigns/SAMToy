@@ -147,11 +147,13 @@ function safeDate() {
   }
 
   function checkWord({ list = 0 }) {
+    if (pauseSAMToy) return
     let oldBonus = bonus
     let matchWord=[];
 
     let isIncluded = ignoreWords.some(word => list.includes(word));
-      if(list.toLowerCase().includes("spectrum") && !isIncluded) {
+    let isMatch = spectrumStartWord.some(word => list.includes(word));
+      if(list.toLowerCase().includes("spectrum") && !isIncluded && isMatch) {
         let purgeScore = 0
         if(callTime < minimumRound) purgeScore = 1
         if((points + bonus)>0 && countShortCalls) purgeScore = 0 //if teh agent managed to get a positive score on a 2 minute call, this will makesure that score is counted. otherwise we dont want to punish the user for a call thats too short to grade
